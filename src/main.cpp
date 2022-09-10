@@ -9,7 +9,18 @@
 #include "mod_loader.h"
 #include "cave_story.h"
 
+static const char* const lpWindowName = "An example dll!";
+
+// Changes the window title to the string above.
+void ExampleFunction(HWND hWnd)
+{
+	char window_name[0x100];
+
+	sprintf(window_name, "%s", lpWindowName);
+	SetWindowTextA(hWnd, window_name);
+}
+
 void InitMod(void)
 {
-	// ModLoader_WriteJump((void*)0x413750, (void*)InitMapData2);
+	ModLoader_WriteJump((void*)0x412320, (void*)ExampleFunction);
 }
