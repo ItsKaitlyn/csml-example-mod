@@ -3,6 +3,10 @@
 /Debug
 /Release
 mod.vcxproj.user
+CaveStory/.exp*
+CaveStory/.lib*
+CaveStory/.pdb*
+CaveStory/.dll*
 
 CaveStory/fps
 CaveStory/mute
