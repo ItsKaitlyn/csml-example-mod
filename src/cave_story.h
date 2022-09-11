@@ -1,5 +1,6 @@
 ﻿// Mod loader for Freeware Cave Story
 // Public domain
+#pragma once
 
 #include <ddraw.h>
 #include <dinput.h>
