@@ -4,6 +4,7 @@
 
 #include <ddraw.h>
 #include <dinput.h>
+#include <dsound.h>
 #include <windows.h>
 
 #define WINDOW_WIDTH 320
@@ -784,183 +785,101 @@ VALUEVIEW* gVV = (VALUEVIEW*)0x4A5F98;
 ///////////////
 
 
-
-// ClearArmsData - 0x401000
+//ArmsItem functions
 static void (* const ClearArmsData)(void) = (void(*)(void))0x401000;
-// ClearItemData - 0x401030
 static void (* const ClearItemData)(void) = (void(*)(void))0x401030;
-// AddArmsData - 0x401050
 static BOOL(* const AddArmsData)(long code, long max_num) = (BOOL(*)(long, long))0x401050;
-// SubArmsData - 0x401160
 static BOOL(* const SubArmsData)(long code) = (BOOL(*)(long))0x401160;
-// TradeArms - 0x401220
 static BOOL(* const TradeArms)(long code, long code2, long max_num) = (BOOL(*)(long, long, long))0x401220;
-// AddItemData - 0x4012D0
 static BOOL(* const AddItemData)(long code) = (BOOL(*)(long))0x4012D0;
-// SubItemData - 0x401330
 static BOOL(* const SubItemData)(long code) = (BOOL(*)(long))0x401330;
-// MoveCampCursor - 0x4013C0
 static void (* const MoveCampCursor)(void) = (void(*)(void))0x4013C0;
-// PutCampObject - 0x4016F0
 static void (* const PutCampObject)(void) = (void(*)(void))0x4016F0;
-// CampLoop - 0x401D10
 static void (* const CampLoop)(void) = (void(*)(void))0x401D10;
-// CheckItem - 0x401F20
 static BOOL(* const CheckItem)(long a) = (BOOL(*)(long))0x401F20;
-// CheckArms - 0x401F60
 static BOOL(* const CheckArms)(long a) = (BOOL(*)(long))0x401F60;
-// UseArmsEnergy - 0x401FA0
 static BOOL(* const UseArmsEnergy)(long num) = (BOOL(*)(long))0x401FA0;
-// ChangeArmsEnergy - 0x402020
 static BOOL(* const ChangeArmsEnergy)(long num) = (BOOL(*)(long))0x402020;
-// FullArmsEnergy - 0x402090
 static void (* const FullArmsEnergy)(void) = (void(*)(void))0x402090;
-// RotationArms - 0x4020E0
 static int (* const RotationArms)(void) = (int(*)(void))0x4020E0;
-// RotationArmsRev - 0x402190
 static int (* const RotationArmsRev)(void) = (int(*)(void))0x402190;
-// ChangeToFirstArms - 0x402240
 static void (* const ChangeToFirstArms)(void) = (void(*)(void))0x402240;
-// InitBack - 0x402270
+// Background functions
 static void (* const InitBack)(const char* background_filename, int background_type) = (void(*)(const char*, int))0x402270;
-// ActBack - 0x402370
 static void (* const ActBack)(void) = (void (*)(void))0x402370;
-// PutBack - 0x4023D0
 static void (* const PutBack)(int x_pos, int y_pos) = (void(*)(int, int))0x4023D0;
-// PutFront - 0x402830
 static void (* const PutFront)(int x_pos, int y_pos) = (void(*)(int, int))0x402830;
-// JudgeHitBulletBlock - 0x4029B0
+// Bullet Collision functions
 static int (* const JudgeHitBulletBlock)(int x, int y, BULLET *bul) = (int(*)(int, int, BULLET*))0x4029B0;
-// JudgeHitBulletBlock2 - 0x402B30
 static int (* const JudgeHitBulletBlock2)(int x, int y, unsigned char *atrb, BULLET* bul) = (int(*)(int, int, unsigned char*, BULLET*))0x402B30;
-// JudgeHitBulletTriangleA - 0x402FC0
 static int (* const JudgeHitBulletTriangleA)(int x, int y, BULLET* bul) = (int(*)(int, int, BULLET*))0x402FC0;
-// JudgeHitBulletTriangleB - 0x4030B0
 static int (* const JudgeHitBulletTriangleB)(int x, int y, BULLET* bul) = (int(*)(int, int, BULLET*))0x4030B0;
-// JudgeHitBulletTriangleC - 0x4031A0
 static int (* const JudgeHitBulletTriangleC)(int x, int y, BULLET* bul) = (int(*)(int, int, BULLET*))0x4031A0;
-// JudgeHitBulletTriangleD - 0x403290
 static int (* const JudgeHitBulletTriangleD)(int x, int y, BULLET* bul) = (int(*)(int, int, BULLET*))0x403290;
-// JudgeHitBulletTriangleE - 0x403380
 static int (* const JudgeHitBulletTriangleE)(int x, int y, BULLET* bul) = (int(*)(int, int, BULLET*))0x403380;
-// JudgeHitBulletTriangleF - 0x403470
 static int (* const JudgeHitBulletTriangleF)(int x, int y, BULLET* bul) = (int(*)(int, int, BULLET*))0x403470;
-// JudgeHitBulletTriangleG - 0x403560
 static int (* const JudgeHitBulletTriangleG)(int x, int y, BULLET* bul) = (int(*)(int, int, BULLET*))0x403560;
-// JudgeHitBulletTriangleH - 0x403650
 static int (* const JudgeHitBulletTriangleH)(int x, int y, BULLET* bul) = (int(*)(int, int, BULLET*))0x403650;
-// HitBulletMap - 0x403740
 static void (* const HitBulletMap)(void) = (void(*)(void))0x403740;
-// InitBullet - 0x403C00
+// Bullet functions
 static void (* const InitBullet)(void) = (void(*)(void))0x403C00;
-// CountArmsBullet - 0x403C40
 static int (* const CountArmsBullet)(int arms_code) = (int(*)(int))0x403C40;
-// CountBulletNum - 0x403CB0
 static int (* const CountBulletNum)(int bullet_code) = (int(*)(int))0x403CB0;
-// DeleteBullet - 0x403D10
 static void (* const DeleteBullet)(int code) = (void(*)(int))0x403D10;
-// ClearBullet - 0x403D80
 static void (* const ClearBullet)(void) = (void(*)(void))0x403D80;
-// PutBullet - 0x403DC0
 static void (* const PutBullet)(int fx, int fy) = (void(*)(int, int))0x403DC0;
-// SetBullet - 0x403F80
 static void (* const SetBullet)(int no, int x, int y, int dir) = (void(*)(int, int, int, int))0x403F80;
-// ActBullet_Frontia1 - 0x404160
 static void (* const ActBullet_Frontia1)(BULLET *bul) = (void(*)(BULLET*))0x404160;
-// ActBullet_Frontia2 - 0x4043F0
 static void (* const ActBullet_Frontia2)(BULLET* bul, int level) = (void(*)(BULLET*, int))0x4043F0;
-// ActBullet_PoleStar - 0x4047B0
 static void (* const ActBullet_PoleStar)(BULLET* bul, int level) = (void(*)(BULLET*, int))0x4047B0;
-// ActBullet_FireBall - 0x404B30
 static void (* const ActBullet_FireBall)(BULLET* bul, int level) = (void(*)(BULLET*, int))0x404B30;
-// ActBullet_MachineGun - 0x405120
 static void (* const ActBullet_MachineGun)(BULLET* bul, int level) = (void(*)(BULLET*, int))0x405120;
-// ActBullet_Missile - 0x4055A0
 static void (* const ActBullet_Missile)(BULLET* bul, int level) = (void(*)(BULLET*, int))0x4055A0;
-// ActBullet_Bom - 0x405D80
 static void (* const ActBullet_Bom)(BULLET* bul, int level) = (void(*)(BULLET*, int))0x405D80;
-// ActBullet_Bubblin1 - 0x405F30
 static void (* const ActBullet_Bubblin1)(BULLET* bul) = (void(*)(BULLET*))0x405F30;
-// ActBullet_Bubblin2 - 0x406190
 static void (* const ActBullet_Bubblin2)(BULLET* bul) = (void(*)(BULLET*))0x406190;
-// ActBullet_Bubblin3 - 0x4064D0
 static void (* const ActBullet_Bubblin3)(BULLET* bul) = (void(*)(BULLET*))0x4064D0;
-// ActBullet_Spine - 0x4068B0
 static void (* const ActBullet_Spine)(BULLET* bul) = (void(*)(BULLET*))0x4068B0;
-// ActBullet_Sword1 - 0x406BB0
 static void (* const ActBullet_Sword1)(BULLET* bul) = (void(*)(BULLET*))0x406BB0;
-// ActBullet_Sword2 - 0x406E60
 static void (* const ActBullet_Sword2)(BULLET* bul) = (void(*)(BULLET*))0x406E60;
-// ActBullet_Sword3 - 0x407110
 static void (* const ActBullet_Sword3)(BULLET* bul) = (void(*)(BULLET*))0x407110;
-// ActBullet_Edge - 0x4075E0
 static void (* const ActBullet_Edge)(BULLET* bul) = (void(*)(BULLET*))0x4075E0;
-// ActBullet_Drop - 0x4078A0
 static void (* const ActBullet_Drop)(BULLET* bul) = (void(*)(BULLET*))0x4078A0;
-// ActBullet_SuperMissile - 0x407910
 static void (* const ActBullet_SuperMissile)(BULLET* bul, int level) = (void(*)(BULLET*, int))0x407910;
-// ActBullet_SuperBom - 0x408080
 static void (* const ActBullet_SuperBom)(BULLET* bul, int level) = (void(*)(BULLET*, int))0x408080;
-// ActBullet_Nemesis - 0x408230
 static void (* const ActBullet_Nemesis)(BULLET* bul, int level) = (void(*)(BULLET*, int))0x408230;
-// ActBullet_Spur - 0x408710
 static void (* const ActBullet_Spur)(BULLET* bul, int level) = (void(*)(BULLET*, int))0x408710;
-// ActBullet_SpurTail - 0x408AE0
 static void (* const ActBullet_SpurTail)(BULLET* bul, int level) = (void(*)(BULLET*, int))0x408AE0;
-// ActBullet_EnemyClear - 0x408F40
 static void (* const ActBullet_EnemyClear)(BULLET* bul) = (void(*)(BULLET*))0x408F40;
-// ActBullet_Star - 0x408F90
 static void (* const ActBullet_Star)(BULLET* bul) = (void(*)(BULLET*))0x408F90;
-// ActBullet - 0x408FC0
 static void (* const ActBullet)(void) = (void(*)(void))0x408FC0;
-// IsSomeActiveBullet - 0x4095C0
 static BOOL (* const IsSomeActiveBullet)(void) = (BOOL(*)(void))0x4095C0;
-// InitCaret - 0x409650
+// Caret functions
 static void (* const InitCaret)(void) = (void(*)(void))0x409650;
-// ActCaret00 - 0x409670
 static void (* const ActCaret00)(CARET *crt) = (void(*)(CARET*))0x409670;
-// ActCaret01 - 0x409680
 static void (* const ActCaret01)(CARET* crt) = (void(*)(CARET*))0x409680;
-// ActCaret02 - 0x409880
 static void (* const ActCaret02)(CARET* crt) = (void(*)(CARET*))0x409880;
-// ActCaret03 - 0x409B80
 static void (* const ActCaret03)(CARET* crt) = (void(*)(CARET*))0x409B80;
-// ActCaret04 - 0x409C70
 static void (* const ActCaret04)(CARET* crt) = (void(*)(CARET*))0x409C70;
-// ActCaret05 - 0x409E00
 static void (* const ActCaret05)(CARET* crt) = (void(*)(CARET*))0x409E00;
-// ActCaret07 - 0x409F60
 static void (* const ActCaret07)(CARET* crt) = (void(*)(CARET*))0x409F60;
-// ActCaret08 - 0x40A120
 static void (* const ActCaret08)(CARET* crt) = (void(*)(CARET*))0x40A120;
-// ActCaret09 - 0x40A1B0
 static void (* const ActCaret09)(CARET* crt) = (void(*)(CARET*))0x40A1B0;
-// ActCaret10 - 0x40A280
 static void (* const ActCaret10)(CARET* crt) = (void(*)(CARET*))0x40A280;
-// ActCaret11 - 0x40A3F0
 static void (* const ActCaret11)(CARET* crt) = (void(*)(CARET*))0x40A3F0;
-// ActCaret12 - 0x40A5A0
 static void (* const ActCaret12)(CARET* crt) = (void(*)(CARET*))0x40A5A0;
-// ActCaret13 - 0x40A650
 static void (* const ActCaret13)(CARET* crt) = (void(*)(CARET*))0x40A650;
-// ActCaret14 - 0x40A7E0
 static void (* const ActCaret14)(CARET* crt) = (void(*)(CARET*))0x40A7E0;
-// ActCaret15 - 0x40A8F0
 static void (* const ActCaret15)(CARET* crt) = (void(*)(CARET*))0x40A8F0;
-// ActCaret16 - 0x40A9E0
 static void (* const ActCaret16)(CARET* crt) = (void(*)(CARET*))0x40A9E0;
-// ActCaret17 - 0x40AAA0
 static void (* const ActCaret17)(CARET* crt) = (void(*)(CARET*))0x40AAA0;
-// ActCaret - 0x40AB50
 static void (* const ActCaret)(void) = (void(*)(void))0x40AB50;
-// PutCaret - 0x40ABC0
 static void (* const PutCaret)(int fx, int fy) = (void(*)(int, int))0x40ABC0;
-// SetCaret - 0x40AC90
 static void (* const SetCaret)(int x, int y, int code, int dir) = (void(*)(int, int, int, int))0x40AC90;
-// LoadConfigData - 0x40AD60
 static BOOL (* const LoadConfigData)(ConfigData* config_memory) = (BOOL(*)(ConfigData*))0x40AD60;
-// DefaultConfigData - 0x40AE30
 static void(* const DefaultConfigData)(ConfigData* config_memory) = (void(*)(ConfigData*))0x40AE30;
+// Dialog functions (not implemented into cave_story.h yet)
+
 // VersionDialog - 0x40AEC0
 
 // DebugMuteDialog - 0x40AFC0
@@ -969,421 +888,236 @@ static void(* const DefaultConfigData)(ConfigData* config_memory) = (void(*)(Con
 
 // QuitDialog - 0x40B290
 
-// SetClientOffset - 0x40B320
+// Draw functions
 static void(* const SetClientOffset)(int width, int height) = (void(*)(int, int))0x40B320;
-// Flip_SystemTask - 0x40B340
 static BOOL (* const Flip_SystemTask)(HWND hWnd) = (BOOL(*)(HWND))0x40B340;
-// StartDirectDraw - 0x40B340
 static BOOL (* const StartDirectDraw)(HWND hWnd, int lMagnification, int lColourDepth) = (BOOL(*)(HWND hWnd, int, int))0x40B340;
-// EndDirectDraw - 0x40B6C0
 static BOOL(* const EndDirectDraw)(HWND hWnd) = (BOOL(*)(HWND))0x40B6C0;
-// ReleaseSurface - 0x40B7A0
 static void (* const ReleaseSurface)(int s) = (void(*)(int))0x40B7A0;
-// MakeSurface_Resource - 0x40B800
 static BOOL(* const MakeSurface_Resource)(const char *name, SurfaceID surf_no) = (BOOL(*)(const char*, SurfaceID))0x40B800;
-// MakeSurface_File - 0x40BAC0
 static BOOL(* const MakeSurface_File)(const char* name, int surf_no) = (BOOL(*)(const char*, int))0x40BAC0;
-// ReloadBitmap_Resource - 0x40BE10
 static BOOL(* const ReloadBitmap_Resource)(const char* name, SurfaceID surf_no) = (BOOL(*)(const char*, SurfaceID))0x40BE10;
-// ReloadBitmap_File - 0x40BFD0
 static BOOL(* const ReloadBitmap_File)(const char* name, int surf_no) = (BOOL(*)(const char*, int))0x40BFD0;
-// MakeSurface_Generic - 0x40C1D0
 static BOOL(* const MakeSurface_Generic)(int bxsize, int bysize, int surf_no) = (BOOL(*)(int, int, int))0x40C1D0;
-// BackupSurface - 0x40C320
 static void (* const BackupSurface)(SurfaceID surf_no, const RECT *rect) = (void(*)(SurfaceID, const RECT*))0x40C320;
-// PutBitmap3 - 0x40C3C0
 static void (* const PutBitmap3)(const RECT*, int, int, const RECT*, SurfaceID) = (void(*)(const RECT*, int, int, const RECT*, SurfaceID))0x40C3C0;
-// PutBitmap4 - 0x40C5B0
 static void (* const PutBitmap4)(const RECT*, int, int, const RECT*, SurfaceID) = (void(*)(const RECT*, int, int, const RECT*, SurfaceID))0x40C5B0;
-// Surface2Surface - 0x40C7A0
 static void (* const Surface2Surface)(int x, int y, const RECT *rect, SurfaceID to, SurfaceID from) = (void(*)(int, int, const RECT*, SurfaceID, SurfaceID))0x40C7A0;
-// GetCortBoxColor - 0x40C8B0
 static unsigned long (* const GetCortBoxColor)(COLORREF col) = (unsigned long(*)(COLORREF))0x40C8B0;
-// CortBox - 0x40C9E0
 static void (* const CortBox)(RECT* dst_rect, int colour) = (void(*)(RECT*, int))0x40C9E0;
-// CortBox2 - 0x40CA80
 static void (* const CortBox2)(RECT* dst_rect, int colour, SurfaceID surf_no) = (void(*)(RECT*, int, SurfaceID))0x40CA80;
-// out - 0x40CB30
 static BOOL(* const out)(char surface_identifier) = (BOOL(*)(char))0x40CB30;
-// RestoreSurfaces - 0x40CB60
 static int (* const RestoreSurfaces)(void) = (int(*)(void))0x40CB60;
-// InitTextObject - 0x40CD50
 static void(* const InitTextObject)(const char *name) = (void(*)(const char*))0x40CD50;
-// PutText - 0x40CE00
 static void (* const PutText)(int x, int y, const char* text, unsigned int colour) = (void(*)(int, int, const char*, unsigned int))0x40CE00;
-// PutText2 - 0x40CEB0
 static void (* const PutText2)(int x, int y, const char* text, unsigned int colour, SurfaceID) = (void(*)(int, int, const char*, unsigned int, SurfaceID))0x40CEB0;
-// EndTextObject - 0x40CF70
 static void (* const EndTextObject)(void) = (void(*)(void))0x40CF70;
-// ActionStripper - 0x40CF90
+// Ending functions
 static void (* const ActionStripper)(void) = (void(*)(void))0x40CF90;
-// PutStripper - 0x40D010
 static void (* const PutStripper)(void) = (void(*)(void))0x40D010;
-// SetStripper - 0x40D150
 static void (* const SetStripper)(int x, int y, const char *text, int cast) = (void(*)(int, int, const char*, int))0x40D150;
-// RestoreStripper - 0x40D240
 static void (* const RestoreStripper)(void) = (void(*)(void))0x40D240;
-// ActionIllust - 0x40D2D0
 static void (* const ActionIllust)(void) = (void(*)(void))0x40D2D0;
-// PutIllust - 0x40D350
 static void (* const PutIllust)(void) = (void(*)(void))0x40D350;
-// ReloadIllust - 0x40D3A0
 static void (* const ReloadIllust)(int a) = (void(*)(int))0x40D3A0;
-// InitCreditScript - 0x40D3E0
 static void (* const InitCreditScript)(void) = (void(*)(void))0x40D3E0;
-// ReleaseCreditScript - 0x40D410
 static void (* const ReleaseCreditScript)(void) = (void(*)(void))0x40D410;
-// StartCreditScript - 0x40D440
 static BOOL(* const StartCreditScript)(void) = (BOOL(*)(void))0x40D440;
-// ActionCredit - 0x40D5C0
 static void (* const ActionCredit)(void) = (void(*)(void))0x40D5C0;
-// ActionCredit_Read - 0x40D620
 static void (* const ActionCredit_Read)(void) = (void(*)(void))0x40D620;
-// GetScriptNumber - 0x40DB00
 static int (* const GetScriptNumber)(const char *text) = (int(*)(const char*))0x40DB00;
-// SetCreditIllust - 0x40DB40
 static void (* const SetCreditIllust)(int a) = (void(*)(int))0x40DB40;
-// CutCreditIllust - 0x40DB60
 static void (* const CutCreditIllust)(void) = (void(*)(void))0x40DB60;
-// Scene_DownIsland - 0x40DB70
 static int (* const Scene_DownIsland)(HWND hWnd, int mode) = (int(*)(HWND, int))0x40DB70;
-// Call_Escape - 0x40DD70
+// Escape menu
 static int (* const Call_Escape)(HWND hWnd) = (int(*)(HWND))0x40DD70;
-// InitFade - 0x40DE60
+// Fade functions
 static void (* const InitFade)(void) = (void(*)(void))0x40DE60;
-// SetFadeMask - 0x40DE90
 static void (* const SetFadeMask)(void) = (void(*)(void))0x40DE90;
-// ClearFade - 0x40DEA0
 static void (* const ClearFade)(void) = (void(*)(void))0x40DEA0;
-// StartFadeOut - 0x40DEC0
 static void (* const StartFadeOut)(signed char dir) = (void(*)(signed char))0x40DEC0;
-// StartFadeIn - 0x40DF50
 static void (* const StartFadeIn)(signed char dir) = (void(*)(signed char))0x40DF50;
-// ProcFade - 0x40DFE0
 static void (* const ProcFade)(void) = (void(*)(void))0x40DFE0;
-// PutFade - 0x40E770
 static void (* const PutFade)(void) = (void(*)(void))0x40E770;
-// GetFadeActive - 0x40E830
 static BOOL(* const GetFadeActive)(void) = (BOOL(*)(void))0x40E830;
-// InitFlags - 0x40E850
+// Flag functions
 static void (* const InitFlags)(void) = (void(*)(void))0x40E850;
-// InitSkipFlags - 0x40E870
 static void (* const InitSkipFlags)(void) = (void(*)(void))0x40E870;
-// SetNPCFlag - 0x40E890
 static void (* const SetNPCFlag)(long a) = (void(*)(long))0x40E890;
-// CutNPCFlag - 0x40E8E0
 static void (* const CutNPCFlag)(long a) = (void(*)(long))0x40E8E0;
-// GetNPCFlag - 0x40E930
 static BOOL(* const GetNPCFlag)(long a) = (BOOL(*)(long))0x40E930;
-// SetSkipFlag - 0x40E970
 static void (* const SetSkipFlag)(long a) = (void(*)(long))0x40E970;
-// CutSkipFlag - 0x40E9C0
 static void (* const CutSkipFlag)(long a) = (void(*)(long))0x40E9C0;
-// GetSkipFlag - 0x40EA10
 static BOOL(* const GetSkipFlag)(long a) = (BOOL(*)(long))0x40EA10;
-// InitFlash - 0x40EA50
+// Flash functions
 static void (* const InitFlash)(void) = (void(*)(void))0x40EA50;
-// SetFlash - 0x40EA70
 static void (* const SetFlash)(int x, int y, FlashMode mode) = (void(*)(int, int, FlashMode))0x40EA70;
-// ActFlash_Explosion - 0x40EAC0
 static void (* const ActFlash_Explosion)(int flx, int fly) = (void(*)(int, int))0x40EAC0;
-// ActFlash_Flash - 0x40ED20
 static void (* const ActFlash_Flash)(void) = (void(*)(void))0x40ED20;
-// ActFlash - 0x40EDE0
 static void (* const ActFlash)(int flx, int fly) = (void(*)(int, int))0x40EDE0;
-// PutFlash - 0x40EE20
 static void (* const PutFlash)(void) = (void(*)(void))0x40EE20;
-// ResetFlash - 0x40EE60
 static void (* const ResetFlash)(void) = (void(*)(void))0x40EE60;
-// MoveFrame3 - 0x40EE70
+// Frame / camera functions
 static void (* const MoveFrame3)(void) = (void(*)(void))0x40EE70;
-// GetFramePosition - 0x40F020
 static void (* const GetFramePosition)(int* fx, int* fy) = (void(*)(int*, int*))0x40F020;
-// SetFramePosition - 0x40F040
 static void (* const SetFramePosition)(int fx, int fy) = (void(*)(int, int))0x40F040;
-// SetFrameMyChar - 0x40F130
 static void (* const SetFrameMyChar)(void) = (void(*)(void))0x40F130;
-// SetFrameTargetMyChar - 0x40F220
 static void (* const SetFrameTargetMyChar)(int wait) = (void(*)(int))0x40F220;
-// SetFrameTargetNpChar - 0x40F250
 static void (* const SetFrameTargetNpChar)(int event, int wait) = (void(*)(int, int))0x40F250;
-// SetFrameTargetBoss - 0x40F2D0
 static void (* const SetFrameTargetBoss)(int no, int wait) = (void(*)(int, int))0x40F2D0;
-// SetQuake - 0x40F310
 static void (* const SetQuake)(int time) = (void(*)(int))0x40F310;
-// SetQuake2 - 0x40F320
 static void (* const SetQuake2)(int time) = (void(*)(int))0x40F320;
-// ResetQuake - 0x40F330
 static void (* const ResetQuake)(void) = (void(*)(void))0x40F330;
-// Random - 0x40F350
+// Game functions
 static int (* const Random)(int min, int max) = (int(*)(int, int))0x40F350;
-// PutNumber4 - 0x40F380
 static void (* const PutNumber4)(int x, int y, int, int) = (void(*)(int, int, int, int))0x40F380;
-// Game - 0x40F5F0
 static BOOL(* const Game)(HWND hWnd) = (BOOL(*)(HWND))0x40F5F0;
-// ModeOpening - 0x40F730
 static int (* const ModeOpening)(HWND hWnd) = (int(*)(HWND))0x40F730;
-// ModeTitle - 0x40F9B0
 static int (* const ModeTitle)(HWND hWnd) = (int(*)(HWND))0x40F9B0;
-// ModeAction - 0x410400
 static int (* const ModeAction)(HWND hWnd) = (int(*)(HWND))0x410400;
-// GetCompileDate - 0x4108B0
+// Generic functions
 static void (* const GetCompileDate)(int *year, int *month, int *day) = (void(*)(int*, int*, int*))0x4108B0;
-// GetCompileVersion - 0x410990
 static BOOL(* const GetCompileVersion)(int* v1, int* v2, int* v3, int* v4) = (BOOL(*)(int*, int*, int*, int*))0x410990;
-// OpenSoundVolume - 0x410AB0
 static BOOL(* const OpenSoundVolume)(HWND hWnd) = (BOOL(*)(HWND))0x410AB0;
-// DeleteLog - 0x410BC0
 static void (* const DeleteLog)(void) = (void(*)(void))0x410BC0;
-// WriteLog - 0x410C10
 static BOOL(* const WriteLog)(const char *string, int value1, int value2, int value3) = (BOOL(*)(const char*, int, int, int))0x410C10;
-// GetDateLimit - 0x410CA0
 static int (* const GetDateLimit)(SYSTEMTIME* system_time_low, SYSTEMTIME* system_time_high) = (int(*)(SYSTEMTIME*, SYSTEMTIME*))0x410CA0;
-// IsKeyFile - 0x410D10
 static BOOL(* const IsKeyFile)(const char *name) = (BOOL(*)(const char*))0x410D10;
-// GetFileSizeLong - 0x410D80
 static long(* const GetFileSizeLong)(const char *path) = (long(*)(const char*))0x410D80;
-// ErrorLog - 0x410DE0
 static BOOL(* const ErrorLog)(const char *string, int value) = (BOOL(*)(const char*, int))0x410DE0;
-// IsShiftJIS - 0x410E90
 static BOOL(* const IsShiftJIS)(unsigned char c) = (BOOL(*)(unsigned char))0x410E90;
-// CenteringWindowByParent - 0x410EE0
 static BOOL(* const CenteringWindowByParent)(HWND hWnd) = (BOOL(*)(HWND))0x410EE0;
-// LoadWindowRect - 0x410FE0
 static BOOL(* const LoadWindowRect)(HWND hWnd, const char *filename, BOOL unknown) = (BOOL(*)(HWND, const char*, BOOL))0x410FE0;
-// SaveWindowRect - 0x4111F0
 static BOOL(* const SaveWindowRect)(HWND hWnd, const char *filename) = (BOOL(*)(HWND, const char*))0x4111F0;
-// IsEnableBitmap - 0x4112E0
 static BOOL(* const IsEnableBitmap)(const char *path) = (BOOL(*)(const char*))0x4112E0;
-// LoadGenericData - 0x411390
+// GenericLoad functions
 static BOOL(* const LoadGenericData)(void) = (BOOL(*)(void))0x411390;
-// ReleaseDirectInput - 0x411E10
+// Input functions
 static void(* const ReleaseDirectInput)(void) = (void(*)(void))0x411E10;
-// ActivateDirectInput - 0x411E60
 static BOOL(* const ActivateDirectInput)(BOOL aquire) = (BOOL(*)(BOOL))0x411E60;
-// InitDirectInput - 0x411EB0
 static BOOL(* const InitDirectInput)(HINSTANCE hinst, HWND hWnd) = (BOOL(*)(HINSTANCE, HWND))0x411EB0;
-// HookAllDirectInputDevices - 0x411EF0
 static BOOL(* const FindAndOpenDirectInputDevice)(HWND hWnd) = (BOOL(*)(HWND))0x411EF0;
-// EnumDevices_Callback - 0x411FC0
 static BOOL(* const EnumDevices_Callback)(LPCDIDEVICEINSTANCE lpddi, LPVOID pvRef) = (BOOL(*)(LPCDIDEVICEINSTANCE, LPVOID))0x411FC0;
-// GetJoystickStatus - 0x4120F0
 static BOOL(* const GetJoystickStatus)(DIRECTINPUTSTATUS *status) = (BOOL(*)(DIRECTINPUTSTATUS*))0x4120F0;
-// ResetJoystickStatus - 0x412250
 static BOOL(* const ResetJoystickStatus)(void) = (BOOL(*)(void))0x412250;
-// GetTrg - 0x4122E0
+// KeyControl functions
 static void (* const GetTrg)(void) = (void(*)(void))0x4122E0;
-// SetWindowName - 0x412320
+// Main functions
 static void (* const SetWindowName)(HWND hWnd) = (void(*)(HWND))0x412320;
-// PutFramePerSecound - 0x412370
 static void (* const PutFramePerSecound)(void) = (void(*)(void))0x412370;
-// CountFramePerSecound - 0x4123A0
 static unsigned long (* const CountFramePerSecound)(void) = (unsigned long(*)(void))0x4123A0;
-// WinMain - 0x412420
 // This function is called CS_WinMain because we can't call it WinMain
 static int (* const CS_WinMain)(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) = (int(*)(HINSTANCE, HINSTANCE, LPSTR, int))0x412420;
-// InactiveWindow - 0x412BC0
 static void (* const InactiveWindow)(void) = (void(*)(void))0x412BC0;
-// ActiveWindow - 0x412BF0
 static void (* const ActiveWindow)(void) = (void(*)(void))0x412BF0;
-// DragAndDropHandler - 0x412C30
 static BOOL(* const DragAndDropHandler)(HWND hWnd, WPARAM wParam) = (BOOL(*)(HWND, WPARAM))0x412C30;
-// WindowProcedure - 0x412CA0
 static LRESULT (* const WindowProcedure)(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam) = (LRESULT(*)(HWND, UINT, WPARAM, LPARAM))0x412CA0;
-// SystemTask - 0x413570
 static BOOL (* const SystemTask)(void) = (BOOL(*)(void))0x413570;
-// JoystickProc - 0x4135E0
 static void (* const JoystickProc)(void) = (void(*)(void))0x4135E0;
-// InitMapData2 - 0x413750
+// Map functions
 static BOOL(* const InitMapData2)(void) = (BOOL(*)(void))0x413750;
-// LoadMapData2 - 0x413770
 static BOOL(* const LoadMapData2)(const char *path_map) = (BOOL(*)(const char*))0x413770;
-// LoadAttributeData - 0x4138A0
 static BOOL(* const LoadAttributeData)(const char *path_atrb) = (BOOL(*)(const char*))0x4138A0;
-// EndMapData - 0x413930
 static void (* const EndMapData)(void) = (void(*)(void))0x413930;
-// ReleasePartsImage - 0x413950
 static void (* const ReleasePartsImage)(void) = (void(*)(void))0x413950;
-// GetMapData - 0x413960
 static void (* const GetMapData)(unsigned char** data, short* mw, short* ml) = (void(*)(unsigned char**, short*, short*))0x413960;
-// GetAttribute - 0x4139A0
 static unsigned char (* const GetAttribute)(int x, int y) = (unsigned char(*)(int, int))0x4139A0;
-// DeleteMapParts - 0x413A00
 static void (* const DeleteMapParts)(int x, int y) = (void(*)(int, int))0x413A00;
-// ShiftMapParts - 0x413A20
 static void (* const ShiftMapParts)(int x, int y) = (void(*)(int, int))0x413A20;
-// ChangeMapParts - 0x413A60
 static BOOL(* const ChangeMapParts)(int x, int y, unsigned char no) = (BOOL(*)(int, int, unsigned char))0x413A60;
-// PutStage_Back - 0x413AF0
 static void (* const PutStage_Back)(int fx, int fy) = (void(*)(int, int))0x413AF0;
-// PutStage_Front - 0x413C60
 static void (* const PutStage_Front)(int fx, int fy) = (void(*)(int, int))0x413C60;
-// PutMapDataVector - 0x413E40
 static void (* const PutMapDataVector)(int fx, int fy) = (void(*)(int, int))0x413E40;
-// ReadyMapName - 0x4140F0
+// Map name functions
 static void (* const ReadyMapName)(const char *str) = (void(*)(const char*))0x4140F0;
-// PutMapName - 0x414250
 static void (* const PutMapName)(BOOL bMini) = (void(*)(BOOL))0x414250;
-// StartMapName - 0x414310
 static void (* const StartMapName)(void) = (void(*)(void))0x414310;
-// RestoreMapName - 0x414330
 static void (* const RestoreMapName)(void) = (void(*)(void))0x414330;
-// WriteMiniMapLine - 0x4143C0
+// MiniMap / Map System functions
 static void (* const WriteMiniMapLine)(int line) = (void(*)(int))0x4143C0;
-// MiniMapLoop - 0x414640
 static int (* const MiniMapLoop)(void) = (int(*)(void))0x414640;
-// IsMapping - 0x414B00
 static BOOL(* const IsMapping)(void) = (BOOL(*)(void))0x414B00;
-// StartMapping - 0x414B20
 static void (* const StartMapping)(void) = (void(*)(void))0x414B20;
-// SetMapping - 0x414B40
 static void (* const SetMapping)(int a) = (void(*)(int))0x414B40;
-// InitMyChar - 0x414B50
+// MyChar functions
 static void (* const InitMyChar)(void) = (void(*)(void))0x414B50;
-// AnimationMyChar - 0x414BF0
 static void (* const AnimationMyChar)(BOOL bKey) = (void(*)(BOOL))0x414BF0;
-// ShowMyChar - 0x415220
 static void (* const ShowMyChar)(BOOL bShow) = (void(*)(BOOL))0x415220;
-// PutMyChar - 0x415250
 static void (* const PutMyChar)(int camera_x, int camera_y) = (void(*)(int, int))0x415250;
-// ActMyChar_Normal - 0x4156C0
 static void (* const ActMyChar_Normal)(BOOL bKey) = (void(*)(BOOL))0x4156C0;
-// ActMyChar_Stream - 0x416470
 static void (* const ActMyChar_Stream)(BOOL bKey) = (void(*)(BOOL))0x416470;
-// ActMyChar - 0x4168C0
 static void (* const ActMyChar)(BOOL bKey) = (void(*)(BOOL))0x4168C0;
-// AirProcess - 0x416990
 static void (* const AirProcess)(void) = (void(*)(void))0x416990;
-// GetMyCharPosition - 0x416AA0
 static void (* const GetMyCharPosition)(int *x, int *y) = (void(*)(int*, int*))0x416AA0;
-// SetMyCharPosition - 0x416AC0
 static void (* const SetMyCharPosition)(int x, int y) = (void(*)(int, int))0x416AC0;
-// MoveMyChar - 0x416B30
 static void (* const MoveMyChar)(int x, int y) = (void(*)(int, int))0x416B30;
-// ZeroMyCharXMove - 0x416B50
 static void (* const ZeroMyCharXMove)(void) = (void(*)(void))0x416B50;
-// GetUnitMyChar - 0x416B60
 static int (* const GetUnitMyChar)(void) = (int(*)(void))0x416B60;
-// SetMyCharDirect - 0x416B70
 static void (* const SetMyCharDirect)(unsigned char dir) = (void(*)(unsigned char))0x416B70;
-// ChangeMyUnit - 0x416C40
 static void (* const ChangeMyUnit)(unsigned char a) = (void(*)(unsigned char))0x416C40;
-// PitMyChar - 0x416C50
 static void (* const PitMyChar)(void) = (void(*)(void))0x416C50;
-// EquipItem - 0x416C70
 static void (* const EquipItem)(int flag, BOOL b) = (void(*)(int, BOOL))0x416C70;
-// ResetCheck - 0x416CA0
 static void (* const ResetCheck)(void) = (void(*)(void))0x416CA0;
-// SetNoise - 0x416CC0
 static void (* const SetNoise)(int no, int freq) = (void(*)(int, int))0x416CC0;
-// CutNoise - 0x416D40
 static void (* const CutNoise)(void) = (void(*)(void))0x416D40;
-// ResetNoise - 0x416D80
 static void (* const ResetNoise)(void) = (void(*)(void))0x416D80;
-// SleepNoise - 0x416DF0
 static void (* const SleepNoise)(void) = (void(*)(void))0x416DF0;
-// ResetMyCharFlag - 0x416E20
+// MycHit / MyChar collision functions
 static void (* const ResetMyCharFlag)(void) = (void(*)(void))0x416E20;
-// JudgeHitMyCharBlock - 0x416E30
 static int (* const JudgeHitMyCharBlock)(int x, int y) = (int(*)(int, int))0x416E30;
-// PutlittleStar - 0x417160
 static void (* const PutlittleStar)(void) = (void(*)(void))0x417160;
-// JudgeHitMyCharTriangleA - 0x4171D0
 static int (* const JudgeHitMyCharTriangleA)(int x, int y) = (int(*)(int, int))0x4171D0;
-// JudgeHitMyCharTriangleB - 0x4172E0
 static int (* const JudgeHitMyCharTriangleB)(int x, int y) = (int(*)(int, int))0x4172E0;
-// JudgeHitMyCharTriangleC - 0x4173F0
 static int (* const JudgeHitMyCharTriangleC)(int x, int y) = (int(*)(int, int))0x4173F0;
-// JudgeHitMyCharTriangleD - 0x417500
 static int (* const JudgeHitMyCharTriangleD)(int x, int y) = (int(*)(int, int))0x417500;
-// JudgeHitMyCharTriangleE - 0x417610
 static int (* const JudgeHitMyCharTriangleE)(int x, int y) = (int(*)(int, int))0x417610;
-// JudgeHitMyCharTriangleF - 0x417720
 static int (* const JudgeHitMyCharTriangleF)(int x, int y) = (int(*)(int, int))0x417720;
-// JudgeHitMyCharTriangleG - 0x417830
 static int (* const JudgeHitMyCharTriangleG)(int x, int y) = (int(*)(int, int))0x417830;
-// JudgeHitMyCharTriangleH - 0x417940
 static int (* const JudgeHitMyCharTriangleH)(int x, int y) = (int(*)(int, int))0x417940;
-// JudgeHitMyCharWater - 0x417A50
 static int (* const JudgeHitMyCharWater)(int x, int y) = (int(*)(int, int))0x417A50;
-// JudgeHitMyCharDamage - 0x417AE0
 static int (* const JudgeHitMyCharDamage)(int x, int y) = (int(*)(int, int))0x417AE0;
-// JudgeHitMyCharDamageW - 0x417B70
 static int (* const JudgeHitMyCharDamageW)(int x, int y) = (int(*)(int, int))0x417B70;
-// JudgeHitMyCharVectLeft - 0x417C00
 static int (* const JudgeHitMyCharVectLeft)(int x, int y) = (int(*)(int, int))0x417C00;
-// JudgeHitMyCharVectUp - 0x417C90
 static int (* const JudgeHitMyCharVectUp)(int x, int y) = (int(*)(int, int))0x417C90;
-// JudgeHitMyCharVectRight - 0x417D20
 static int (* const JudgeHitMyCharVectRight)(int x, int y) = (int(*)(int, int))0x417D20;
-// JudgeHitMyCharVectDown - 0x417DB0
 static int (* const JudgeHitMyCharVectDown)(int x, int y) = (int(*)(int, int))0x417DB0;
-// HitMyCharMap - 0x417E40
 static void (* const HitMyCharMap)(void) = (void(*)(void))0x417E40;
-// JudgeHitMyCharNPC - 0x4187F0
 static int (* const JudgeHitMyCharNPC)(NPCHAR *npc) = (int(*)(NPCHAR*))0x4187F0;
-// JudgeHitMyCharNPC3 - 0x418B10
 static unsigned char (* const JudgeHitMyCharNPC3)(NPCHAR* npc) = (unsigned char(*)(NPCHAR*))0x418B10;
-// JudgeHitMyCharNPC4 - 0x418C20
 static int (* const JudgeHitMyCharNPC4)(NPCHAR* npc) = (int(*)(NPCHAR*))0x418C20;
-// HitMyCharNpChar - 0x419030
 static void (* const HitMyCharNpChar)(void) = (void(*)(void))0x419030;
-// HitMyCharBoss - 0x419450
 static void (* const HitMyCharBoss)(void) = (void(*)(void))0x419450;
-// AddExpMyChar - 0x4196F0
+// MycParam functions
 static void (* const AddExpMyChar)(int x) = (void(*)(int))0x4196F0;
-// ZeroExpMyChar - 0x419890
 static void (* const ZeroExpMyChar)(void) = (void(*)(void))0x419890;
-// IsMaxExpMyChar - 0x4198C0
 static BOOL(* const IsExpMyChar)(void) = (BOOL(*)(void))0x4198C0;
-// DamageMyChar - 0x419910
 static void (* const DamageMyChar)(int damage) = (void(*)(int))0x419910;
-// ZeroArmsEnergy_All - 0x419B50
 static void (* const ZeroArmsEnergy_All)(void) = (void(*)(void))0x419B50;
-// AddBulletMyChar - 0x419BA0
 static void (* const AddBulletMyChar)(int no, int val) = (void(*)(int, int))0x419BA0;
-// AddLifeMyChar - 0x419C60
 static void (* const AddLifeMyChar)(int x) = (void(*)(int))0x419C60;
-// AddMaxLifeMyChar - 0x419CB0
 static void (* const AddMaxLifeMyChar)(int val) = (void(*)(int))0x419CB0;
-// PutArmsEnergy - 0x419D10
 static void (* const PutArmsEnergy)(BOOL flash) = (void(*)(BOOL))0x419D10;
-// PutActiveArmsList - 0x41A0B0
 static void (* const PutActiveArmsList)(void) = (void(*)(void))0x41A0B0;
-// PutMyLife - 0x41A1D0
 static void (* const PutMyLife)(BOOL flash) = (void(*)(BOOL))0x41A1D0;
-// PutMyAir - 0x41A350
 static void (* const PutMyAir)(int x, int y) = (void(*)(int, int))0x41A350;
-// PutTimeCounter - 0x41A430
 static void (* const PutTimeCounter)(int x, int y) = (void(*)(int, int))0x41A430;
-// SaveTimeCounter - 0x41A5D0
 static BOOL(* const SaveTimeCounter)(void) = (BOOL(*)(void))0x41A5D0;
-// LoadTimeCounter - 0x41A7C0
 static int (* const LoadTimeCounter)(void) = (int(*)(void))0x41A7C0;
-// MakeSoundObject8 - 0x41A8F0
+// Organya functions
 static BOOL(* const MakeSoundObject8)(signed char* wavep, signed char track, signed char pipi) = (BOOL(*)(signed char*, signed char, signed char))0x41A8F0;
-// ChangeOrganFrequency - 0x41ABA0
 static void (* const ChangeOrganFrequency)(unsigned char key, signed char track, long a) = (void(*)(unsigned char, signed char, long))0x41ABA0;
-// ChangeOrganPan - 0x41AC70
 static void (* const ChangeOrganPan)(unsigned char key, unsigned char pan, signed char track) = (void(*)(unsigned char, unsigned char, signed char))0x41AC70;
-// ChangeOrganVolume - 0x41AD20
 static void (* const ChangeOrganVolume)(int no, long volume, signed char track) = (void(*)(int, long, signed char))0x41AD20;
-// PlayOrganObject - 0x41ADC0
 static void (* const PlayOrganObject)(unsigned char key, int mode, signed char track, long freq) = (void(*)(unsigned char, int, signed char, long))0x41ADC03;
-// ReleaseOrganyaObject - 0x41B2A0
 static void (* const ReleaseOrganyaObject)(signed char track) = (void(*)(signed char))0x41B2A0;
-// InitWaveData100 - 0x41B380
 static BOOL(* const InitWaveData100)(void) = (BOOL(*)(void))0x41B380;
-// MakeOrganyaWave - 0x41B3F0
 static BOOL(* const MakeOrganyaWave)(signed char track, signed char wave_no, signed char pipi) = (BOOL(*)(signed char, signed char, signed char))0x41B3F0;
-// ChangeDramFrequency - 0x41B440
 static void (* const ChangeDramFrequency)(unsigned char key, signed char track) = (void(*)(unsigned char, signed char))0x41B440;
-// ChangeDramPan - 0x41B480
 static void (* const ChangeDramPan)(unsigned char pan, signed char track) = (void(*)(unsigned char, signed char))0x41B440;
-// ChangeDramVolume - 0x41B4D0
 static void (* const ChangeDramVolume)(long volume, signed char track) = (void(*)(long, signed char))0x41B4D0;
-// PlayDramObject - 0x41B510
 static void (* const PlayDramObject)(unsigned char key, int mode, signed char track) = (void(*)(unsigned char, int, signed char))0x41B510;
+
+// These classes aren't implemented, as I, Kaitlyn, don't know how to implement them.
 // OrgData::OrgData - 0x41B600
 
 // OrgData::InitOrgData - 0x41B650
@@ -1410,149 +1144,87 @@ static void (* const PlayDramObject)(unsigned char key, int mode, signed char tr
 
 // OrgData::SetPlayerPointer - 0x41C630
 
-// StartOrganya - 0x41C6C0
-
-// LoadOrganya - 0x41C6F0
+static BOOL (* const StartOrganya)(LPDIRECTSOUND lpDS, const char *path_wave) = (BOOL(*)(LPDIRECTSOUND, const char*))0x41C6C0;
 static void (* const LoadOrganya)(const char*) = (void(*)(const char*))0x41C6F0;
-// SetOrganyaPosition - 0x41C730
 static void (* const SetOrganyaPosition)(int) = (void(*)(int))0x41C730;
-// GetOrganyaPosition - 0x41C770
 static int (* const GetOrganyaPosition)(void) = (int(*)(void))0x41C770;
-// PlayOrganyaMusic - 0x41C790
 static void (* const PlayOrganyaMusic)(void) = (void(*)(void))0x41C790;
-// ChangeOrganyaVolume - 0x41C7C0
 static void (* const ChangeOrganyaVolume)(int) = (void(*)(int))0x41C7C0;
-// StopOrganyaMusic - 0x41C7F0
 static void (* const StopOrganyaMusic)(void) = (void(*)(void))0x41C7F0;
-// SetOrganyaFadeout - 0x41C880
 static void (* const SetOrganyaFadeout)(void) = (void(*)(void))0x41C880;
-// EndOrganya - 0x41C890
 static void (* const EndOrganya)(void) = (void(*)(void))0x41C890;
-// MakeWaveTables - 0x41C8F0
+// PixTone functions
 static void (* const MakeWaveTables)(void) = (void(*)(void))0x41C8F0;
-// MakePixelWaveData - 0x41CB10
 static BOOL (* const MakePixelWaveData)(const PIXTONEPARAMETER* ptp, unsigned char* pData) = (BOOL(*)(const PIXTONEPARAMETER*, unsigned char*))0x41CB10;
-// IsProfile - 0x41CFC0
+// Profile / Save data functions
 static BOOL(* const IsProfile)(void) = (BOOL(*)(void))0x41CFC0;
-// SaveProfile - 0x41D040
 static BOOL(* const SaveProfile)(const char *name) = (BOOL(*)(const char*))0x41D040;
-// LoadProfile - 0x41D260
 static BOOL(* const LoadProfile)(const char *name) = (BOOL(*)(const char*))0x41D260;
-// InitializeGame - 0x41D550
 static BOOL(* const InitializeGame)(HWND hWnd) = (BOOL(*)(HWND))0x41D550;
-// ClearPermitStage - 0x41D610
+// SelStage / Teleporter Menu functions
 static void (* const ClearPermitStage)(void) = (void(*)(void))0x41D610;
-// AddPermitStage - 0x41D630
 static BOOL(* const AddPermitStage)(int index, int event) = (BOOL(*)(int, int))0x41D630;
-// SubPermitStage - 0x41D6A0
 static BOOL(* const SubPermitStage)(int index) = (BOOL(*)(int))0x41D6A0;
-// MoveStageSelectCursor - 0x41D740
 static void (* const MoveStageSelectCursor)(void) = (void(*)(void))0x41D740;
-// PutStageSelectObject - 0x41D840
 static void (* const PutStageSelectObject)(void) = (void(*)(void))0x41D840;
-// StageSelectLoop - 0x41DA00
 static int (* const StageSelectLoop)(int *p_event) = (int(*)(int*))0x41DA00;
-// ShootBullet_Frontial - 0x41DBD0
+// Shoot functions
 static void (* const ShootBullet_Frontia1)(int level) = (void(*)(int))0x41DBD0;
-// ShootBullet_PoleStar - 0x41DE60
 static void (* const ShootBullet_PoleStar)(int level) = (void(*)(int))0x41DE60;
-// ShootBullet_FireBall - 0x41E110
 static void (* const ShootBullet_FireBall)(int level) = (void(*)(int))0x41E110;
-// ShootBullet_Machinegun1 - 0x41E3D0
 static void (* const ShootBullet_Machinegun1)(int level) = (void(*)(int))0x41E3D0;
-// ShootBullet_Missile - 0x41E7B0
 static void (* const ShootBullet_Missile)(int level, BOOL bSuper) = (void(*)(int, BOOL))0x41E7B0;
-// ShootBullet_Bubblin1 - 0x41EFD0
 static void (* const ShootBullet_Bubblin1)(void) = (void(*)(void))0x41EFD0;
-// ShootBullet_Bubblin2 - 0x41F280
 static void (* const ShootBullet_Bubblin2)(int level) = (void(*)(int))0x41F280;
-// ShootBullet_Sword - 0x41F580
 static void (* const ShootBullet_Sword)(int level) = (void(*)(int))0x41F580;
-// ShootBullet_Nemesis - 0x41F710
 static void (* const ShootBullet_Nemesis)(int level) = (void(*)(int))0x41F710;
-// ShootBullet_ResetSpurCharge - 0x41F9E0
 static void (* const ResetSpurCharge)(void) = (void(*)(void))0x41F9E0;
-// ShootBullet_Spur - 0x41FA10
 static void (* const ShootBullet_Spur)(int level) = (void(*)(int))0x41FA10;
-// ShootBullet - 0x41FE70
 static void (* const ShootBullet)(void) = (void(*)(void))0x41FE70;
-// InitDirectSound - 0x4200C0
+// Sound functions
 static BOOL(* const InitDirectSound)(HWND hWnd) = (BOOL(*)(HWND))0x4200C0;
-// EndDirectSound - 0x4201A0
 static void (* const EndDirectSound)(void) = (void(*)(void))0x4201A0;
-// InitSoundObject - 0x420240
 static BOOL(* const InitSoundObject)(LPCSTR resname, int no) = (BOOL(*)(LPCSTR, int))0x420240;
-// LoadSoundObject - 0x420390
 static BOOL(* const LoadSoundObject)(LPCSTR file_name, int no) = (BOOL(*)(LPCSTR, int))0x420390;
-// PlaySoundObject - 0x420640
 static BOOL(* const PlaySoundObject)(int no, SoundMode mode) = (BOOL(*)(int, SoundMode))0x420640;
-// ChangeSoundFrequency - 0x420720
 static void (* const ChangeSoundFrequency)(int no, DWORD rate) = (void(*)(int, DWORD))0x420720;
-// ChangeSoundVolume - 0x420760
 static void (* const ChangeSoundVolume)(int no, long volume) = (void(*)(int, long))0x420760;
-// ChangeSoundPan - 0x4207A0
 static void (* const ChangeSoundPan)(int no, long pan) = (void(*)(int, long))0x4207A0;
-// MakePixToneObject - 0x4207E0
 static int (* const MakePixToneObject)(const PIXTONEPARAMETER* ptp, int ptp_num, int no) = (int(*)(const PIXTONEPARAMETER*, int, int))0x4207E0;
-// TransferStage - 0x420BE0
+// Stage functions
 static BOOL(* const TransferStage)(int no, int w, int x, int y) = (BOOL(*)(int, int, int, int))0x420BE0;
-// ChangeMusic - 0x420EE0
 static void (* const ChangeMusic)(int music_id) = (void(*)(int))0x420EE0;
-// ReCallMusic - 0x420F50
 static void (* const ReCallMusic)(void) = (void(*)(void))0x420F50;
-// InitStar - 0x420FA0
+// Star / Whimsical Star functions
 static void (* const InitStar)(void) = (void(*)(void))0x420FA0;
-// ActStar - 0x421040
 static void (* const ActStar)(void) = (void(*)(void))0x421040;
-// PutStar - 0x4213B0
 static void (* const PutStar)(int fx, int fy) = (void(*)(int, int))0x4213B0;
-// InitTextScript2 - 0x4214E0
+// TextScript / TSC functions
 static BOOL(* const InitTextScript2)(void) = (BOOL(*)(void))0x4214E0;
-// EndTextScript - 0x421570
 static void (* const EndTextScript)(void) = (void(*)(void))0x421570;
-// EncryptionBinaryData2 - 0x4215C0
 static void (* const EncryptionBinaryData2)(unsigned char* pData, long size) = (void(*)(unsigned char*, long))0x4215C0;
-// LoadTextScript2 - 0x421660
 static BOOL(* const LoadTextScript2)(const char *name) = (BOOL(*)(const char*))0x421660;
-// LoadTextScript_Stage - 0x421750
 static BOOL(* const LoadTextScript_Stage)(const char* name) = (BOOL(*)(const char*))0x421750;
-// GetTextScriptPath - 0x4218E0
 static void (* const GetTextScriptPath)(char *path) = (void(*)(char*))0x4218E0;
-// GetTextScriptNo - 0x421900
 static int (* const GetTextScriptNo)(int a) = (int(*)(int))0x421900;
-// StartTextScript - 0x421990
 static BOOL(* const StartTextScript)(int no) = (BOOL(*)(int))0x421990;
-// JumpTextScript - 0x421AF0
 static BOOL(* const JumpTextScript)(int no) = (BOOL(*)(int))0x421AF0;
-// StopTextScript - 0x421C50
 static void (* const StopTextScript)(void) = (void(*)(void))0x421C50;
-// CheckNewLine - 0x421C80
 static void (* const CheckNewLine)(void) = (void(*)(void))0x421C80;
-// SetNumberTextScript - 0x421D10
 static void (* const SeeNumberTextScript)(int index) = (void(*)(int))0x421D10;
-// ClearTextLine - 0x421E90
 static void (* const ClearTextLine)(void) = (void(*)(void))0x421E90;
-// PutTextScript - 0x421F10
 static void (* const PutTextScript)(void) = (void(*)(void))0x421F10;
-// TextScriptProc - 0x422510
 static int (* const TextScriptProc)(void) = (int(*)(void))0x422510;
-// RestoreTextScript - 0x425790
 static void (* const RestoreTextScript)(void) = (void(*)(void))0x425790;
-// InitTriangleTable - 0x4257F0
+// Triangle functions
 static void (* const InitTriangleTable)(void) = (void(*)(void))0x4257F0;
-// GetSin - 0x4258B0
 static int (* const GetSin)(unsigned char deg) = (int(*)(unsigned char))0x4258B0;
-// GetCos - 0x4258C0
 static int (* const GetCos)(unsigned char deg) = (int(*)(unsigned char))0x4258C0;
-// GetArktan - 0x4258E0
 static unsigned char (* const GetArktan)(int x, int y) = (unsigned char(*)(int, int))0x4258E0;
-// ClearValueView - 0x425BC0
+// ValueView functions
 static void (* const ClearValueView)(void) = (void(*)(void))0x425BC0;
-// SetValueView - 0x425BF0
 static void (* const SetValueView)(int *px, int *py, int value) = (void(*)(int*, int*, int))0x425BF0;
-// ActValueView - 0x426360
 static void (* const ActValueView)(void) = (void(*)(void))0x426360;
-// PutValueView - 0x426430
 static void (* const PutValueView)(int flx, int fly) = (void(*)(int, int))0x426430;
 // ActNpc function list (000 - 361)
 static void (* const ActNpc000)(NPCHAR* npc) = (void(*)(NPCHAR*))0x426530;
@@ -1916,95 +1588,54 @@ static void (* const ActNpc357)(NPCHAR* npc) = (void(*)(NPCHAR*))0x46E730;
 static void (* const ActNpc358)(NPCHAR* npc) = (void(*)(NPCHAR*))0x46E870;
 static void (* const ActNpc359)(NPCHAR* npc) = (void(*)(NPCHAR*))0x46E9E0;
 static void (* const ActNpc360)(NPCHAR* npc) = (void(*)(NPCHAR*))0x46EA90;
-// InitNpChar - 0x46EB30
+// NpChar functions
 static void (* const InitNpChar)(void) = (void(*)(void))0x46EB30;
-// LoadEvent - 0x46EB50
 static BOOL (* const LoadEvent)(const char *path_event) = (BOOL(*)(const char*))0x46EB50;
-// SetUniqueParameter - 0x46EE50
 static void (* const SetUniqueParameter)(NPCHAR *npc) = (void(*)(NPCHAR*))0x46EE50;
-// SetNpChar - 0x46EFD0
 static void (* const SetNpChar)(int object_ID, int x_pos, int y_pos, int a4, int a5, int facing_right, int a7, int object_RAM_index) = (void(*)(int, int, int, int, int, int, int, int))0x46EFD0;
-// SetDestroyNpChar - 0x46F150
 static void (* const SetDestroyNpChar)(int x, int y, signed int w, int num) = (void(*)(int, int, int, int))0x46F150;
-// SetDestroyNpCharUp - 0x46F200
 static void (* const SetDestroyNpCharUp)(int x, int y, signed int w, int num) = (void(*)(int, int, int, int))0x46F200;
-// SetExpObjects - 0x46F2B0
 static void (* const SetExpObjects)(int x, int y, int exp) = (void(*)(int, int, int))0x46F2B0;
-// SetBulletObject - 0x46F430
 static BOOL(* const SetBulletObject)(int x, int y, int val) = (BOOL(*)(int, int, int))0x46F430;
-// SetLifeObject - 0x46F630
 static BOOL(* const SetLifeObject)(int x, int y, int val) = (BOOL(*)(int, int, int))0x46F630;
-// VanishNpChar - 0x46F760
 static void (* const VanishNpChar)(NPCHAR* npc) = (void(*)(NPCHAR*))0x46F760;
-// PutNpChar - 0x46F810
 static void (* const PutNpChar)(int fx, int fy) = (void(*)(int, int))0x46F810;
-// ActNpChar - 0x46FA00
 static void (* const ActNpChar)(void) = (void(*)(void))0x46FA00;
-// ChangeNpCharByEvent - 0x46FAB0
 static void (* const ChangeNpCharByEvent)(int code_event, int code_char, int dir) = (void(*)(int, int, int))0x46FAB0;
-// ChangeCheckableNpCharByEvent - 0x46FD10
 static void (* const ChangeCheckableNpCharByEvent)(int code_event, int code_char, int dir) = (void(*)(int, int, int))0x46FD10;
-// SetNpCharActionNo - 0x46FF90
 static void (* const SetNpCharActionNo)(int code_event, int code_char, int dir) = (void(*)(int, int, int))0x46FF90;
-// MoveNpChar - 0x470060
 static void (* const MoveNpChar)(int code_event, int x, int y, int dir) = (void(*)(int, int, int, int))0x470060;
-// BackStepMyChar - 0x470150
 static void (* const BackStepMyChar)(int code_event) = (void(*)(int))0x470150;
-// DeleteNpCharEvent - 0x470250
 static void (* const DeleteNpCharEvent)(int code) = (void(*)(int))0x470250;
-// DeleteNpCharCode - 0x4702D0
 static void (* const DeleteNpCharCode)(int code, BOOL bSmoke) = (void(*)(int, BOOL))0x4702D0;
-// GetNpCharPosition - 0x470460
 static void (* const GetNpCharPosition)(int *x, int *y, int i) = (void(*)(int*, int*, int))0x470460;
-// IsNpCharCode - 0x470490
 static BOOL (* const IsNpCharCode)(int code) = (BOOL(*)(int))0x470490;
-// GetNpCharAlive - 0x4704F0
 static BOOL (* const GetNpCharAlive)(int code_event) = (BOOL(*)(int))0x4704F0;
-// CountAliveNpChar - 0x470560
 static int (* const CountAliveNpChar)(void) = (int(*)(void))0x470560;
-// JadgeHitNpCharBlock - 0x4705C0
+// NpcHit / Npc collision functions
 static void (* const JadgeHitNpCharBlock)(NPCHAR* npc, int x, int y) = (void(*)(NPCHAR*, int, int))0x4705C0;
-// JudgeHitNpCharTriangleA - 0x470870
 static void (* const JudgeHitNpCharTriangleA)(NPCHAR* npc, int x, int y) = (void(*)(NPCHAR*, int, int))0x470870;
-// JudgeHitNpCharTriangleB - 0x470970
 static void (* const JudgeHitNpCharTriangleB)(NPCHAR* npc, int x, int y) = (void(*)(NPCHAR*, int, int))0x470970;
-// JudgeHitNpCharTriangleC - 0x470A70
 static void (* const JudgeHitNpCharTriangleC)(NPCHAR* npc, int x, int y) = (void(*)(NPCHAR*, int, int))0x470A70;
-// JudgeHitNpCharTriangleD - 0x470B70
 static void (* const JudgeHitNpCharTriangleD)(NPCHAR* npc, int x, int y) = (void(*)(NPCHAR*, int, int))0x470B70;
-// JudgeHitNpCharTriangleE - 0x470C70
 static void (* const JudgeHitNpCharTriangleE)(NPCHAR* npc, int x, int y) = (void(*)(NPCHAR*, int, int))0x470C70;
-// JudgeHitNpCharTriangleF - 0x470D80
 static void (* const JudgeHitNpCharTriangleF)(NPCHAR* npc, int x, int y) = (void(*)(NPCHAR*, int, int))0x470D80;
-// JudgeHitNpCharTriangleG - 0x470E90
 static void (* const JudgeHitNpCharTriangleG)(NPCHAR* npc, int x, int y) = (void(*)(NPCHAR*, int, int))0x470E90;
-// JudgeHitNpCharTriangleH - 0x470FA0
 static void (* const JudgeHitNpCharTriangleH)(NPCHAR* npc, int x, int y) = (void(*)(NPCHAR*, int, int))0x470FA0;
-// JudgeHitNpCharWater - 0x4710B0
 static void (* const JudgeHitNpCharWater)(NPCHAR* npc, int x, int y) = (void(*)(NPCHAR*, int, int))0x4710B0;
-// HitNpCharMap - 0x471160
 static void (* const HitNpCharMap)(void) = (void(*)(void))0x471160;
-// LoseNpChar - 0x471B80
 static void (* const LoseNpChar)(NPCHAR* npc, BOOL bVanish) = (void(*)(NPCHAR*, BOOL))0x471B80;
-// HitNpCharBullet - 0x471D50
 static void (* const JudgeHitNpCharBullet)(void) = (void(*)(void))0x471D50;
-// LoadNpcTable - 0x472400
+// NpcTbl / Npc Table functions
 static BOOL (* const LoadNpcTable)(const char *path) = (BOOL(*)(const char*))0x472400;
-// ReleaseNpcTable - 0x472710
 static void (* const ReleaseNpcTable)(void) = (void(*)(void))0x472710;
-// InitBossChar - 0x472740
+// Boss functions
 static void (* const InitBossChar)(int code) = (void(*)(int))0x472740;
-// PutBossChar - 0x472770
 static void (* const PutBossChar)(int fx, int fy) = (void(*)(int, int))0x472770;
-// SetBossCharActNo - 0x472940
 static void (* const SetBossCharActNo)(int a) = (void(*)(int))0x472940;
-// HitBossBullet - 0x472950
 static void (* const HitBossBullet)(void) = (void(*)(void))0x472950;
-// ActBossChar_0 - 0x472FF0
 static void (* const ActBossChar_0)(void) = (void(*)(void))0x472FF0;
-// ActBossChar - 0x473000
 static void (* const ActBossChar)(void) = (void(*)(void))0x473000;
-// HitBossMap - 0x473080
 static void (* const HitBossMap)(void) = (void(*)(void))0x473080;
 // Core boss
 static void (* const ActBossChar_Core_Face)(NPCHAR *npc) = (void(*)(NPCHAR*))0x4739B0;
