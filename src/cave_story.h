@@ -1685,27 +1685,3 @@ static void (* const ActBossChar_03_02)(NPCHAR* npc) = (void(*)(NPCHAR*))0x48009
 static void (* const ActBossChar_03_03)(NPCHAR* npc) = (void(*)(NPCHAR*))0x4802A0;
 static void (* const ActBossChar_03_04)(NPCHAR* npc) = (void(*)(NPCHAR*))0x480550;
 static void (* const ActBossChar_03_face)(NPCHAR* npc) = (void(*)(NPCHAR*))0x4808C0;
-
-// Hookspaces & Hookjumps
-
-// COMPATIBILITY NOTES:
-// TSC+'s code starts at 4225CB, but the first 2 instructions are identical to Vanilla.
-// On unknown command error, TSC+ jumps to 425244.
-// If you're still using NICE-Lua at this point:
-// Most people using NICE-Lua asked me (20kdc) to do their work, so this shouldn't be an issue, but it operates at
-//  a start of 4225ED, and 6 bytes. (This was incompatible with TSC+, and this mistake is avoided here.)
-// Theoretically, either of these could be used, but CSH_tsc_start allows the user to override an existing command,
-//  and seems to be close enough to the start that it shouldn't get affected.
-#define CSH_tsc_start (void*) 0x4225D5, 12
-#define CSH_tsc_end (void*) 0x425244, 12
-// Aka 4252A7, or "ParserEnd", but minus some indirection.
-#define CSJ_tsc_done 0x4225CB
-
-// I literally have no idea what i'm doing?? Does this hook into the <MIM function or not??
-// TSC part of <MIM
-#define MIM_tsc_start (void*) 0x4225ED
-#define MIM_tsc_end (void*) 0x422679
-
-// MyChar part of <MIM
-#define MIM_mychar_start (void*) 0x4154b8
-#define MIM_mychar_end (void*) 0x4154C6
