@@ -780,7 +780,8 @@ ITEM* gItemData = (ITEM*)0x499B40;
 MYCHAR* gMC = (MYCHAR*)0x49E638;
 NPCHAR* gNPC = (NPCHAR*)0x4A6220;
 PERMIT_STAGE* gPermitStage = (PERMIT_STAGE*)0x4A5500;
-STAGE_TABLE* gTMT = (STAGE_TABLE*)(*(unsigned*)0x420c2f); // This is a pointer to where it gets used, instead of the actual table, so that it has compatibility with mods.
+STAGE_TABLE* oTMT = (STAGE_TABLE*)0x4937B0; // Default stage table in the exe.
+STAGE_TABLE* gTMT = (STAGE_TABLE*)(*(unsigned*)0x420C2F); // This is a pointer to where it gets used, instead of the actual table, so that it has compatibility with mods.
 TEXT_SCRIPT* gTS = (TEXT_SCRIPT*)0x4A59D0;
 VALUEVIEW* gVV = (VALUEVIEW*)0x4A5F98;
 
