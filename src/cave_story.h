@@ -48,6 +48,7 @@
 #define KEY_ALT_UP 0x180000
 #define KEY_L 0x80000
 #define KEY_PLUS 0x100000
+#define KEY_ESCAPE 0x8000
 
 
 // Variables
@@ -87,11 +88,15 @@
 #define quote_sprite_half_width (*(int*)0x49E68C)
 #define quote_sprite_half_height (*(int*)0x49E690)
 #define gSelectedArms (*(int*)0x499C68)
+#define gSelectedItem (*(int*)0x499C6C)
 #define music_fade_flag (*(int*)0x4A4E10)
 #define gStageNo (*(int*)0x4A57F0) // gStageNo
 #define gMusicNo (*(int*)0x4A57F4) // gMusicNo
 #define gOldPos (*(int*)0x4A57F8) // gOldPos (previous position in music)
 #define gOldNo (*(int*)0x4A57FC) // gOldNo (previous music)
+signed char* gMapping = (signed char*)0x49E5B8;
+unsigned char* gFlagNpc = (unsigned char*)0x49DDA0;
+#define gCurlyShoot_wait (*(int*)0x4BBA2C)
 
 // <MIM Compatibility
 #define CSM_MIM_unobstructive (*(unsigned int*)0x49E184)
@@ -646,7 +651,7 @@ typedef struct PROFILEDATA
 {
 	char code[8];
 	int stage;
-	MusicID music;
+	int music;
 	int x;
 	int y;
 	int direct;
@@ -779,7 +784,6 @@ STAGE_TABLE* gTMT = (STAGE_TABLE*)(*(unsigned*)0x420c2f); // This is a pointer t
 TEXT_SCRIPT* gTS = (TEXT_SCRIPT*)0x4A59D0;
 VALUEVIEW* gVV = (VALUEVIEW*)0x4A5F98;
 
-
 ///////////////
 // Functions //
 ///////////////
@@ -898,7 +902,7 @@ static BOOL(* const MakeSurface_Resource)(const char *name, SurfaceID surf_no) =
 static BOOL(* const MakeSurface_File)(const char* name, int surf_no) = (BOOL(*)(const char*, int))0x40BAC0;
 static BOOL(* const ReloadBitmap_Resource)(const char* name, SurfaceID surf_no) = (BOOL(*)(const char*, SurfaceID))0x40BE10;
 static BOOL(* const ReloadBitmap_File)(const char* name, int surf_no) = (BOOL(*)(const char*, int))0x40BFD0;
-static BOOL(* const MakeSurface_Generic)(int bxsize, int bysize, int surf_no) = (BOOL(*)(int, int, int))0x40C1D0;
+static BOOL(* const MakeSurface_Generic)(int bxsize, int bysize, int surf_no, BOOL bSystem) = (BOOL(*)(int, int, int, BOOL))0x40C1D0;
 static void (* const BackupSurface)(SurfaceID surf_no, const RECT *rect) = (void(*)(SurfaceID, const RECT*))0x40C320;
 static void (* const PutBitmap3)(const RECT*, int, int, const RECT*, SurfaceID) = (void(*)(const RECT*, int, int, const RECT*, SurfaceID))0x40C3C0;
 static void (* const PutBitmap4)(const RECT*, int, int, const RECT*, SurfaceID) = (void(*)(const RECT*, int, int, const RECT*, SurfaceID))0x40C5B0;
