@@ -94,9 +94,11 @@
 #define gMusicNo (*(int*)0x4A57F4) // gMusicNo
 #define gOldPos (*(int*)0x4A57F8) // gOldPos (previous position in music)
 #define gOldNo (*(int*)0x4A57FC) // gOldNo (previous music)
-signed char* gMapping = (signed char*)0x49E5B8;
-unsigned char* gFlagNpc = (unsigned char*)0x49DDA0;
 #define gCurlyShoot_wait (*(int*)0x4BBA2C)
+#define gWaterY (*(int*)0x499C90)
+#define bContinue (*(BOOL*)0x49E1E4)
+#define gCounter (*(int*)0x49E1EC)
+#define g_GameFlags (*(int*)0x49E1E8)
 
 // <MIM Compatibility
 #define CSM_MIM_unobstructive (*(unsigned int*)0x49E184)
@@ -769,21 +771,24 @@ typedef struct VALUEVIEW
 
 // Pointers to structs
 
-ARMS* gArmsData = (ARMS*)0x499BC8;
-ARMS_LEVEL* gArmsLevelTable = (ARMS_LEVEL*)0x493660;
-BULLET* gBul = (BULLET*)0x499C98;
-BULLET_TABLE* gBulTbl = (BULLET_TABLE*)0x48F044;
-NPCHAR* gBoss = (NPCHAR*)0x4BBA58;
-CARET* gCrt = (CARET*)0x49BCA8;
-CARET_TABLE* gCaretTable = (CARET_TABLE*)0x48F830;
-ITEM* gItemData = (ITEM*)0x499B40;
-MYCHAR* gMC = (MYCHAR*)0x49E638;
-NPCHAR* gNPC = (NPCHAR*)0x4A6220;
-PERMIT_STAGE* gPermitStage = (PERMIT_STAGE*)0x4A5500;
-STAGE_TABLE* oTMT = (STAGE_TABLE*)0x4937B0; // Default stage table in the exe.
-STAGE_TABLE* gTMT = (STAGE_TABLE*)(*(unsigned*)0x420C2F); // This is a pointer to where it gets used, instead of the actual table, so that it has compatibility with mods.
-TEXT_SCRIPT* gTS = (TEXT_SCRIPT*)0x4A59D0;
-VALUEVIEW* gVV = (VALUEVIEW*)0x4A5F98;
+static ARMS* gArmsData = (ARMS*)0x499BC8;
+static ARMS_LEVEL* gArmsLevelTable = (ARMS_LEVEL*)0x493660;
+static BULLET* gBul = (BULLET*)0x499C98;
+static BULLET_TABLE* gBulTbl = (BULLET_TABLE*)0x48F044;
+static NPCHAR* gBoss = (NPCHAR*)0x4BBA58;
+static CARET* gCrt = (CARET*)0x49BCA8;
+static CARET_TABLE* gCaretTable = (CARET_TABLE*)0x48F830;
+static ITEM* gItemData = (ITEM*)0x499B40;
+static MYCHAR* gMC = (MYCHAR*)0x49E638;
+static NPCHAR* gNPC = (NPCHAR*)0x4A6220;
+static PERMIT_STAGE* gPermitStage = (PERMIT_STAGE*)0x4A5500;
+static STAGE_TABLE* oTMT = (STAGE_TABLE*)0x4937B0; // Default stage table in the exe.
+static STAGE_TABLE* gTMT = (STAGE_TABLE*)(*(unsigned*)0x420C2F); // This is a pointer to where it gets used, instead of the actual table, so that it has compatibility with mods.
+static TEXT_SCRIPT* gTS = (TEXT_SCRIPT*)0x4A59D0;
+static int* gNumberTextScript = (int*)0x4A5B34;
+static VALUEVIEW* gVV = (VALUEVIEW*)0x4A5F98;
+static signed char* gMapping = (signed char*)0x49E5B8;
+static unsigned char* gFlagNPC = (unsigned char*)0x49DDA0;
 
 ///////////////
 // Functions //
