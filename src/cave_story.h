@@ -52,6 +52,10 @@
 
 
 // Variables
+#define lpWindowName (*(char*)0x493640) // lpWindowName
+#define hObject (*(HANDLE*)0x49E478) // hObject
+#define hMutex (*(HANDLE*)0x49E47C) // hMutex
+#define ghInstance (*(HINSTANCE*)0x49E44C) // ghInstance
 #define ghWnd (*(HWND*)0x49E458) //ghWnd
 #define mag (*(int*)0x48F914) // mag
 #define grcGame (*(RECT*)0x48F91C) // grcGame
@@ -99,6 +103,8 @@
 #define bContinue (*(BOOL*)0x49E1E4)
 #define gCounter (*(int*)0x49E1EC)
 #define g_GameFlags (*(int*)0x49E1E8)
+#define bFPS (*(BOOL*)0x49E464) // bFPS (if true it shows a framerate display)
+#define bFullscreen (*(BOOL*)0x49E460) // bFullscreen (if true, window.rect won't be saved or loaded)
 
 // <MIM Compatibility
 #define CSM_MIM_unobstructive (*(unsigned int*)0x49E184)
