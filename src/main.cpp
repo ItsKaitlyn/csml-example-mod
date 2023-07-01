@@ -9,14 +9,14 @@
 #include "mod_loader.h"
 #include "cave_story.h"
 
-static const char* const lpWindowName = "An example dll!";
+static const char* const GameWindowName = "This replaces the Window Title!";
 
 // Changes the window title to the string above.
 void ExampleFunction(HWND hWnd)
 {
 	char window_name[0x100];
 
-	sprintf(window_name, "%s", lpWindowName);
+	sprintf(window_name, "%s", GameWindowName);
 	SetWindowTextA(hWnd, window_name);
 }
 
