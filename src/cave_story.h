@@ -776,6 +776,7 @@ typedef struct VALUEVIEW
 } VALUEVIEW;
 
 // Pointers to structs
+typedef void (*NPCFUNCTION)(NPCHAR*);
 
 static ARMS* gArmsData = (ARMS*)0x499BC8;
 static ARMS_LEVEL* gArmsLevelTable = (ARMS_LEVEL*)0x493660;
@@ -787,6 +788,7 @@ static CARET_TABLE* gCaretTable = (CARET_TABLE*)0x48F830;
 static ITEM* gItemData = (ITEM*)0x499B40;
 static MYCHAR* gMC = (MYCHAR*)0x49E638;
 static NPCHAR* gNPC = (NPCHAR*)0x4A6220;
+static NPC_TABLE* gNpcTable = (NPC_TABLE*)0x4A6220;
 static PERMIT_STAGE* gPermitStage = (PERMIT_STAGE*)0x4A5500;
 static STAGE_TABLE* oTMT = (STAGE_TABLE*)0x4937B0; // Default stage table in the exe.
 static STAGE_TABLE* gTMT = (STAGE_TABLE*)(*(unsigned*)0x420C2F); // This is a pointer to where it gets used, instead of the actual table, so that it has compatibility with mods.
