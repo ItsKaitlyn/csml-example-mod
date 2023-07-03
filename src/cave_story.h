@@ -374,6 +374,19 @@ static struct
 	RECT rect2;
 } flash;
 
+// Frame
+
+typedef struct FRAME
+{
+	int x;
+	int y;
+	int* tgt_x;
+	int* tgt_y;
+	int wait;
+	int quake;
+	int quake2;
+} FRAME;
+
 // Input
 
 struct DIRECTINPUTSTATUS
