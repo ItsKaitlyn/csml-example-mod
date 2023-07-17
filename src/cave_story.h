@@ -403,7 +403,7 @@ struct DIRECTINPUTSTATUS
 typedef struct MAP_DATA
 {
 	unsigned char* data;
-	unsigned char atrb[0x100];
+	unsigned char atrb[0x101]; // this should be bigger than 0x100
 	short width;
 	short length;
 } MAP_DATA;
