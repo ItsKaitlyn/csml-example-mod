@@ -7,8 +7,15 @@
 #include <dsound.h>
 #include <windows.h>
 
-#define WINDOW_WIDTH 320
-#define WINDOW_HEIGHT 240
+static int& window_magnification = *reinterpret_cast<int*>(0x48F914); // Window magnification
+static ::RECT& grcGame = *reinterpret_cast<::RECT*>(0x48F91C);
+static ::RECT& grcFull = *reinterpret_cast<::RECT*>(0x48F92C);
+
+static auto& gModulePath = *reinterpret_cast<char(*)[MAX_PATH]>(0x49E328);
+static auto& gDataPath = *reinterpret_cast<char(*)[MAX_PATH]>(0x49E220);
+
+#define WINDOW_WIDTH grcGame.right
+#define WINDOW_HEIGHT grcGame.bottom
 
 // Max amounts of X
 
@@ -18,8 +25,8 @@
 #define BULLET_MAX 0x40
 #define CARET_MAX 0x40
 #define MAX_STRIP ((240 / 16) + 1)
-#define FADE_WIDTH	(((WINDOW_WIDTH - 1) / 16) + 1)
-#define FADE_HEIGHT	(((WINDOW_HEIGHT - 1) / 16) + 1)
+#define FADE_WIDTH	(((320 - 1) / 16) + 1)
+#define FADE_HEIGHT	(((320 - 1) / 16) + 1)
 #define PXM_BUFFER_SIZE 0x4B000
 #define NPC_MAX 0x200
 #define STAGE_MAX 8
@@ -29,19 +36,21 @@
 
 // Input key detection
 
-#define gKey (*(int*)0x49E210)
-#define gKeyTrg (*(int*)0x49E214)
+static int& gKey = *reinterpret_cast<int*>(0x49E210);
+static int& gKeyTrg = *reinterpret_cast<int*>(0x49E214);
+static int& gKeyJump = *reinterpret_cast<int*>(0x493610);
+static int& gKeyShot = *reinterpret_cast<int*>(0x493614);
+static int& gKeyArms = *reinterpret_cast<int*>(0x493618);
+static int& gKeyArmsRev = *reinterpret_cast<int*>(0x49361C);
+static int& gKeyItem = *reinterpret_cast<int*>(0x493620);
+static int& gKeyMap = *reinterpret_cast<int*>(0x493624);
+static int& gKeyOk = *reinterpret_cast<int*>(0x493628);
+static int& gKeyCancel = *reinterpret_cast<int*>(0x49362C);
+static int& gKeyLeft = *reinterpret_cast<int*>(0x493630);
+static int& gKeyUp = *reinterpret_cast<int*>(0x493634);
+static int& gKeyRight = *reinterpret_cast<int*>(0x493638);
+static int& gKeyDown = *reinterpret_cast<int*>(0x49363C);
 
-#define gKeyArms (*(int*)0x493618)
-#define gKeyArmsRev (*(int*)0x49361C)
-#define gKeyItem (*(int*)0x493620)
-#define gKeyMap (*(int*)0x493624)
-#define gKeyJump (*(int*)0x493628)
-#define gKeyShot (*(int*)0x49362C)
-#define gKeyLeft (*(int*)0x493630)
-#define gKeyUp (*(int*)0x493634)
-#define gKeyRight (*(int*)0x493638)
-#define gKeyDown (*(int*)0x49363C)
 #define KEY_ALT_LEFT 0x10000
 #define KEY_ALT_DOWN 0x20000
 #define KEY_ALT_RIGHT 0x40000
@@ -52,19 +61,21 @@
 
 
 // Variables
-#define lpWindowName (*(char*)0x493640) // lpWindowName
-#define hObject (*(HANDLE*)0x49E478) // hObject
-#define hMutex (*(HANDLE*)0x49E47C) // hMutex
-#define ghInstance (*(HINSTANCE*)0x49E44C) // ghInstance
-#define ghWnd (*(HWND*)0x49E458) //ghWnd
-#define mag (*(int*)0x48F914) // mag
-#define grcGame (*(RECT*)0x48F91C) // grcGame
-#define grcFull (*(RECT*)0x48F92C) // grcFull
+static HWND& ghWnd = *reinterpret_cast<HWND*>(0x49E458);
+static const char*& lpWindowName = *reinterpret_cast<const char**>(0x493640);
+static HINSTANCE ghInstance = *reinterpret_cast<HINSTANCE*>(0x49E44C);
+
+#define hObject (*(HANDLE*)0x49E478)
+#define hMutex (*(HANDLE*)0x49E47C)
+
 #define background_tile_width (*(int*)0x499C78)
 #define background_tile_height (*(int*)0x499C7C)
+
 #define dword_499C8C (*(int*)0x499C8C)
+
 #define window_padding_h (*(int*)0x49CDA8)
 #define window_padding_w (*(int*)0x49CDAC)
+
 #define window_surface_width (*(int*)0x49D374)
 #define window_surface_height (*(int*)0x49D378)
 #define directdraw (*(IDirectDraw7**)0x49D37C)
@@ -98,13 +109,10 @@
 #define gMusicNo (*(int*)0x4A57F4) // gMusicNo
 #define gOldPos (*(int*)0x4A57F8) // gOldPos (previous position in music)
 #define gOldNo (*(int*)0x4A57FC) // gOldNo (previous music)
-#define gCurlyShoot_wait (*(int*)0x4BBA2C)
-#define gWaterY (*(int*)0x499C90)
 #define bContinue (*(BOOL*)0x49E1E4)
-#define gCounter (*(int*)0x49E1EC)
-#define g_GameFlags (*(int*)0x49E1E8)
-#define bFPS (*(BOOL*)0x49E464) // bFPS (if true it shows a framerate display)
-#define bFullscreen (*(BOOL*)0x49E460) // bFullscreen (if true, window.rect won't be saved or loaded)
+static BOOL& bFPS = *reinterpret_cast<BOOL*>(0x49E464);
+static BOOL& bActive = *reinterpret_cast<BOOL*>(0x49E468);
+static BOOL& bFullscreen = *reinterpret_cast<BOOL*>(0x49E460);
 
 // <MIM Compatibility
 #define CSM_MIM_unobstructive (*(unsigned int*)0x49E184)
@@ -355,15 +363,9 @@ struct FADE
 
 // Flash
 
-enum FlashMode
+struct FLASH
 {
-	FLASH_MODE_EXPLOSION = 1,
-	FLASH_MODE_FLASH = 2
-};
-
-static struct
-{
-	FlashMode mode;
+	int mode;
 	int act_no;
 	BOOL flag;
 	int cnt;
@@ -372,7 +374,7 @@ static struct
 	int y;
 	RECT rect1;
 	RECT rect2;
-} flash;
+};
 
 // Frame
 
@@ -702,26 +704,6 @@ enum SoundMode
 	SOUND_MODE_PLAY = 1
 };
 
-// Star
-
-static struct
-{
-	int cond;
-	int code;
-	int direct;
-	int x;
-	int y;
-	int xm;
-	int ym;
-	int act_no;
-	int act_wait;
-	int ani_no;
-	int ani_wait;
-	int view_left;
-	int view_top;
-	RECT rect;
-} star[3];
-
 // TextScript
 
 typedef struct TEXT_SCRIPT
@@ -789,29 +771,92 @@ typedef struct VALUEVIEW
 } VALUEVIEW;
 
 // Pointers to structs
+typedef void (*BOSSFUNCTION)(void);
+typedef void (*CARETFUNCTION)(CARET*);
 typedef void (*NPCFUNCTION)(NPCHAR*);
 
-static ARMS* gArmsData = (ARMS*)0x499BC8;
+static auto& gArmsData = *reinterpret_cast<ARMS(*)[8]>(0x499BC8);
+static auto& gItemData = *reinterpret_cast<ITEM(*)[32]>(0x499B40);
 static ARMS_LEVEL* gArmsLevelTable = (ARMS_LEVEL*)0x493660;
-static BULLET* gBul = (BULLET*)0x499C98;
-static BULLET_TABLE* gBulTbl = (BULLET_TABLE*)0x48F044;
-static NPCHAR* gBoss = (NPCHAR*)0x4BBA58;
-static CARET* gCrt = (CARET*)0x49BCA8;
-static CARET_TABLE* gCaretTable = (CARET_TABLE*)0x48F830;
-static FADE* gFade = (FADE*)0x49DB30;
-static FRAME* gFrame = (FRAME*)0x49E1C8;
-static ITEM* gItemData = (ITEM*)0x499B40;
-static MYCHAR* gMC = (MYCHAR*)0x49E638;
-static NPCHAR(&gNPC)[512] = *(NPCHAR(*)[512])0x4A6220;
+
+static BACK& gBack = *reinterpret_cast<BACK*>(0x499C74);
+static int& gWaterY = *reinterpret_cast<int*>(0x499C90); // Global water level
+
+static auto& gBul = *reinterpret_cast<BULLET(*)[64]>(0x499C98);
+static auto& gBulTbl = *reinterpret_cast<BULLET_TABLE(*)[46]>(0x48F044);
+static int& spur_charge = *reinterpret_cast<int*>(0x4A5550);
+
+static auto& gBoss = *reinterpret_cast<NPCHAR(*)[20]>(0x4BBA58);
+static auto& gpBossFuncTbl = *reinterpret_cast<BOSSFUNCTION(*)[10]>(0x498AEC);
+static BOSSLIFE& gBL = *reinterpret_cast<BOSSLIFE*>(0x4BBA44);
+
+static auto& gCaretTable = *reinterpret_cast<CARET_TABLE(*)[18]>(0x48F830);
+static auto& gpCaretFuncTbl = *reinterpret_cast<CARETFUNCTION(*)[18]>(0x48F8C0);
+static auto& star = *reinterpret_cast<CARET(*)[3]>(0x4A5800);
+
+static const char*& gProof = *reinterpret_cast<const char**>(0x48F908);
+static const char*& gConfigName = *reinterpret_cast<const char**>(0x48F90C);
+
+static FADE& gFade = *reinterpret_cast<FADE*>(0x49DB30);
+static unsigned long& mask_color = *reinterpret_cast<unsigned long*>(0x49DB28);
+
+static auto& gFlagNPC = *reinterpret_cast<unsigned char(*)[1000]>(0x49DDA0);
+static auto& gSkipFlag = *reinterpret_cast<unsigned char(*)[8]>(0x49DD98);
+
+static FLASH& flash = *reinterpret_cast<FLASH*>(0x49E188);
+static unsigned long& gFlashColor = *reinterpret_cast<unsigned long*>(0x49E1C4);
+
+static FRAME& gFrame = *reinterpret_cast<FRAME*>(0x49E1C8);
+
+static MYCHAR& gMC = *reinterpret_cast<MYCHAR*>(0x49E638);
+static int& time_count = *reinterpret_cast<int*>(0x49E6F4); // Nikumaru/290 counter value
+
+static MAP_DATA& gMap = *reinterpret_cast<MAP_DATA*>(0x49E480);
+static const char*& code_pxma = *reinterpret_cast<const char**>(0x49364C);
+static MAP_NAME& gMapName = *reinterpret_cast<MAP_NAME*>(0x49E590);
+static RECT& mapname_rect = *reinterpret_cast<RECT*>(0x493650); // Not original name
+
+static auto& gNPC = *reinterpret_cast<NPCHAR(*)[0x200]>(0x4A6220);
+static int& gCurlyShoot_wait = *reinterpret_cast<int*>(0x4BBA2C);
+static int& gCurlyShoot_x = *reinterpret_cast<int*>(0x4BBA20);
+static int& gCurlyShoot_y = *reinterpret_cast<int*>(0x4BBA24);
+static int& gSuperXpos = *reinterpret_cast<int*>(0x4BBA30);
+static int& gSuperYpos = *reinterpret_cast<int*>(0x4BBA28);
+static const char*& gPassPixEve = *reinterpret_cast<const char**>(0x498540);
+
 static NPC_TABLE** gNpcTable = (NPC_TABLE**)0x4BBA34;
-static PERMIT_STAGE* gPermitStage = (PERMIT_STAGE*)0x4A5500;
+
+static auto& gPermitStage = *reinterpret_cast<PERMIT_STAGE(*)[8]>(0x4A5500);
+
 static STAGE_TABLE* oTMT = (STAGE_TABLE*)0x4937B0; // Default stage table in the exe.
 static STAGE_TABLE* gTMT = (STAGE_TABLE*)(*(unsigned*)0x420C2F); // This is a pointer to where it gets used, instead of the actual table, so that it has compatibility with mods.
-static TEXT_SCRIPT* gTS = (TEXT_SCRIPT*)0x4A59D0;
-static int* gNumberTextScript = (int*)0x4A5B34;
-static VALUEVIEW* gVV = (VALUEVIEW*)0x4A5F98;
-static signed char* gMapping = (signed char*)0x49E5B8;
-static unsigned char* gFlagNPC = (unsigned char*)0x49DDA0;
+
+static auto& gPtpTable = *reinterpret_cast<PIXTONEPARAMETER(*)[139]>(0x48F940);
+static auto& gWaveModelTable = *reinterpret_cast<signed char(*)[6][0x100]>(0x4A4F00);
+
+static const char*& gDefaultName = *reinterpret_cast<const char**>(0x4937A8);
+static const char*& gProfileCode = *reinterpret_cast<const char**>(0x4937AC);
+
+static int& noise_no = *reinterpret_cast<int*>(0x49E6EC);
+static unsigned int& noise_freq = *reinterpret_cast<unsigned int*>(0x49E6F0);
+
+static TEXT_SCRIPT& gTS = *reinterpret_cast<TEXT_SCRIPT*>(0x4A59D0);
+static auto& text = *reinterpret_cast<char(*)[4][0x40]>(0x4A58D0);
+static RECT& gRect_line = *reinterpret_cast<RECT*>(0x498290);
+static auto& gNumberTextScript = *reinterpret_cast<int(*)[4]>(0x4A5B34);
+
+static auto& gVV = *reinterpret_cast<VALUEVIEW(*)[16]>(0x4A5F98);
+static int& gVVIndex = *reinterpret_cast<int*>(0x4A5F90);
+
+static const char*& gVersionString = *reinterpret_cast<const char**>(0x48F910);
+
+static auto& gMapping = *reinterpret_cast<signed char(*)[0x80]>(0x49E5B8);
+
+static auto& gSin = *reinterpret_cast<int(*)[0x100]>(0x4A5B48);
+static auto& gTan = *reinterpret_cast<short(*)[0x21]>(0x4A5F48);
+
+static int& g_GameFlags = *reinterpret_cast<int*>(0x49E1E8);
+static int& gCounter = *reinterpret_cast<int*>(0x49E1EC);
 
 ///////////////
 // Functions //
@@ -984,7 +1029,7 @@ static void (* const CutSkipFlag)(long a) = (void(*)(long))0x40E9C0;
 static BOOL(* const GetSkipFlag)(long a) = (BOOL(*)(long))0x40EA10;
 // Flash functions
 static void (* const InitFlash)(void) = (void(*)(void))0x40EA50;
-static void (* const SetFlash)(int x, int y, FlashMode mode) = (void(*)(int, int, FlashMode))0x40EA70;
+static void (* const SetFlash)(int x, int y, int mode) = (void(*)(int, int, int))0x40EA70;
 static void (* const ActFlash_Explosion)(int flx, int fly) = (void(*)(int, int))0x40EAC0;
 static void (* const ActFlash_Flash)(void) = (void(*)(void))0x40ED20;
 static void (* const ActFlash)(int flx, int fly) = (void(*)(int, int))0x40EDE0;
