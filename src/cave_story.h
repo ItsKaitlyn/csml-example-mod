@@ -11,8 +11,9 @@ static int& window_magnification = *reinterpret_cast<int*>(0x48F914); // Window 
 static ::RECT& grcGame = *reinterpret_cast<::RECT*>(0x48F91C);
 static ::RECT& grcFull = *reinterpret_cast<::RECT*>(0x48F92C);
 
-static auto& gModulePath = *reinterpret_cast<char(*)[MAX_PATH]>(0x49E328);
-static auto& gDataPath = *reinterpret_cast<char(*)[MAX_PATH]>(0x49E220);
+// Paths inside the exe with different names than original game, because sometimes you wanna get the path urself before the game launches
+static auto& exeModulePath = *reinterpret_cast<char(*)[MAX_PATH]>(0x49E328);
+static auto& exeDataPath = *reinterpret_cast<char(*)[MAX_PATH]>(0x49E220);
 
 #define WINDOW_WIDTH grcGame.right
 #define WINDOW_HEIGHT grcGame.bottom
@@ -948,8 +949,9 @@ static BACK& gBack = *reinterpret_cast<BACK*>(0x499C74);
 static int& gWaterY = *reinterpret_cast<int*>(0x499C90); // Global water level
 
 static auto& gBul = *reinterpret_cast<BULLET(*)[64]>(0x499C98);
-static auto& gBulTbl = *reinterpret_cast<BULLET_TABLE(*)[46]>(0x48F044);
+static auto& gBulTbl = *reinterpret_cast<BULLET_TABLE(*)[46]>(0x48F048);
 static int& spur_charge = *reinterpret_cast<int*>(0x4A5550);
+static int& empty_caret_timer = *reinterpret_cast<int*>(0x4A554C);
 
 static auto& gBoss = *reinterpret_cast<NPCHAR(*)[20]>(0x4BBA58);
 static auto& gpBossFuncTbl = *reinterpret_cast<BOSSFUNCTION(*)[10]>(0x498AEC);

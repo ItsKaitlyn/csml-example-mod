@@ -1,2 +1,3 @@
+autpi
 mod
 graphics_enhancement

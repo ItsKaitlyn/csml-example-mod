@@ -2,9 +2,10 @@
 /.vs
 /Debug
 /Release
+/ZZ-FinalRelease
+
 mod.vcxproj.user
 *.exp
-*.lib
 *.pdb
 *.dll
 
@@ -13,3 +14,10 @@ CaveStory/mute
 CaveStory/Config.dat
 CaveStory/Profile.dat
 CaveStory/window.rect
+
+!CaveStory/lua.dll
+!CaveStory/mods/autpi/autpi.dll
+!CaveStory/mods/autpi/settings.ini
+!CaveStory/mods/mod/mod.dll
+!CaveStory/mods/mod/settings.ini
+!external/lua/lua.lib
