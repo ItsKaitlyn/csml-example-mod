@@ -42,6 +42,6 @@ typedef struct METATABLE_TABLE
 	lua_CFunction newindex;
 } METATABLE_TABLE;
 
-void SetAVAGlobalString();
-void PushAVAMetadata();
-void SetAVALua();
+void SetModGlobalString();
+void PushModMetadata();
+void SetModLua();
