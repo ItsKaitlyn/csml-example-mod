@@ -83,62 +83,6 @@ void LoadAutPiDll()
     }
 }
 
-std::vector<PreModeElementHandler> premodeElementHandlers;
-std::vector<ReleaseElementHandler> releaseElementHandlers;
-
-std::vector<GetTrgElementHandler> gettrgElementHandlers;
-
-std::vector<OpeningBelowFadeElementHandler> Opening_belowfadeElementHandlers;
-std::vector<OpeningAboveFadeElementHandler> Opening_abovefadeElementHandlers;
-std::vector<OpeningBelowTextBoxElementHandler> Opening_belowtextboxElementHandlers;
-std::vector<OpeningAboveTextBoxElementHandler> Opening_abovetextBoxElementHandlers;
-std::vector<OpeningEarlyActionElementHandler> Opening_earlyactionElementHandlers;
-std::vector<OpeningActionElementHandler> Opening_actionElementHandlers;
-std::vector<OpeningInitElementHandler> Opening_initElementHandlers;
-std::vector<OpeningBelowPutCaretElementHandler> Opening_belowputcaretElementHandlers;
-std::vector<OpeningAbovePutCaretElementHandler> Opening_aboveputcaretElementHandlers;
-std::vector<MOBelowPutFPSElementHandler> MObelowputfpsElementHandlers;
-std::vector<MOAbovePutFPSElementHandler> MOaboveputfpsElementHandlers;
-
-std::vector<TitleInitElementHandler> Title_initElementHandlers;
-std::vector<TitleActionElementHandler> Title_actionElementHandlers;
-std::vector<TitleBelowCounterElementHandler> Title_belowcounterElementHandlers;
-std::vector<MTBelowPutFPSElementHandler> MTbelowputfpsElementHandlers;
-std::vector<MTAbovePutFPSElementHandler> MTaboveputfpsElementHandlers;
-
-std::vector<PlayerHudElementHandler> playerhudElementHandlers;
-std::vector<CreditsHudElementHandler> creditshudElementHandlers;
-std::vector<BelowFadeElementHandler> belowfadeElementHandlers;
-std::vector<AboveFadeElementHandler> abovefadeElementHandlers;
-std::vector<BelowTextBoxElementHandler> belowtextboxElementHandlers;
-std::vector<AboveTextBoxElementHandler> abovetextboxElementHandlers;
-std::vector<BelowPlayerElementHandler> belowplayerElementHandlers;
-std::vector<AbovePlayerElementHandler> aboveplayerElementHandlers;
-std::vector<EarlyActionElementHandler> earlyactionElementHandlers;
-std::vector<ActionElementHandler> actionElementHandlers;
-std::vector<CreditsActionElementHandler> creditsactionElementHandlers;
-std::vector<InitElementHandler> initElementHandlers;
-std::vector<BelowPutCaretElementHandler> belowputcaretElementHandlers;
-std::vector<AbovePutCaretElementHandler> aboveputcaretElementHandlers;
-std::vector<MABelowPutFPSElementHandler> MAbelowputfpsElementHandlers;
-std::vector<MAAbovePutFPSElementHandler> MAaboveputfpsElementHandlers;
-
-std::vector<SaveProfilePreCloseElementHandler> saveprofileprecloseElementHandlers;
-std::vector<SaveProfilePostCloseElementHandler> saveprofilepostcloseElementHandlers;
-std::vector<LoadProfilePreCloseElementHandler> loadprofileprecloseElementHandlers;
-std::vector<LoadProfilePostCloseElementHandler> loadprofilepostcloseElementHandlers;
-std::vector<InitializeGameInitElementHandler> intializegameElementHandlers;
-
-std::vector<PutFPSElementHandler> putfpsElementHandlers;
-
-std::vector<TextScriptSVPElementHandler> textscriptsvpElementHandlers;
-
-std::vector<TransferStageInitElementHandler> transferstageinitElementHandlers;
-
-std::vector<LuaPreGlobalModCSElementHandler> preglobalmodcsElementHandlers;
-std::vector<LuaMetadataElementHandler> luametadataElementHandlers;
-std::vector<LuaFuncElementHandler> luafuncElementHandlers;
-
 DEFINE_REGISTER_FUNCTION(PreModeElementHandler, PreModeElement)
 DEFINE_REGISTER_FUNCTION(ReleaseElementHandler, ReleaseElement)
 DEFINE_REGISTER_FUNCTION(GetTrgElementHandler, GetTrgElement)
@@ -155,6 +99,10 @@ DEFINE_REGISTER_FUNCTION(MOBelowPutFPSElementHandler, ModeOpeningBelowPutFPSElem
 DEFINE_REGISTER_FUNCTION(MOAbovePutFPSElementHandler, ModeOpeningAbovePutFPSElement)
 DEFINE_REGISTER_FUNCTION(OpeningBelowPutBackElementHandler, OpeningBelowPutBackElement)
 DEFINE_REGISTER_FUNCTION(OpeningAbovePutBackElementHandler, OpeningAbovePutBackElement)
+DEFINE_REGISTER_FUNCTION(OpeningBelowPutStage_BackElementHandler, OpeningBelowPutStage_BackElement)
+DEFINE_REGISTER_FUNCTION(OpeningAbovePutStage_BackElementHandler, OpeningAbovePutStage_BackElement)
+DEFINE_REGISTER_FUNCTION(OpeningBelowPutStage_FrontElementHandler, OpeningBelowPutStage_FrontElement)
+DEFINE_REGISTER_FUNCTION(OpeningAbovePutStage_FrontElementHandler, OpeningAbovePutStage_FrontElement)
 DEFINE_REGISTER_FUNCTION(TitleInitElementHandler, TitleInitElement)
 DEFINE_REGISTER_FUNCTION(TitleActionElementHandler, TitleActionElement)
 DEFINE_REGISTER_FUNCTION(TitleBelowCounterElementHandler, TitleBelowCounterElement)
@@ -176,6 +124,10 @@ DEFINE_REGISTER_FUNCTION(BelowPutCaretElementHandler, BelowPutCaretElement)
 DEFINE_REGISTER_FUNCTION(AbovePutCaretElementHandler, AbovePutCaretElement)
 DEFINE_REGISTER_FUNCTION(MABelowPutFPSElementHandler, ModeActionBelowPutFPSElement)
 DEFINE_REGISTER_FUNCTION(MAAbovePutFPSElementHandler, ModeActionAbovePutFPSElement)
+DEFINE_REGISTER_FUNCTION(BelowPutStage_BackElementHandler, BelowPutStage_BackElement)
+DEFINE_REGISTER_FUNCTION(AbovePutStage_BackElementHandler, AbovePutStage_BackElement)
+DEFINE_REGISTER_FUNCTION(BelowPutStage_FrontElementHandler, BelowPutStage_FrontElement)
+DEFINE_REGISTER_FUNCTION(AbovePutStage_FrontElementHandler, AbovePutStage_FrontElement)
 DEFINE_REGISTER_FUNCTION(BelowPutBackElementHandler, BelowPutBackElement)
 DEFINE_REGISTER_FUNCTION(AbovePutBackElementHandler, AbovePutBackElement)
 DEFINE_REGISTER_FUNCTION(SaveProfilePreCloseElementHandler, SaveProfilePreCloseElement)
@@ -211,7 +163,7 @@ lua_State* GetLuaL()
 
 BOOL ReadStructBasic(lua_State* L, const char* name, STRUCT_TABLE* table, void* data, int length)
 {
-    typedef BOOL (*ReadStructBasicFunc)(lua_State*, const char*, STRUCT_TABLE*, void*, int);
+    typedef BOOL(*ReadStructBasicFunc)(lua_State*, const char*, STRUCT_TABLE*, void*, int);
 
     ReadStructBasicFunc Func = reinterpret_cast<ReadStructBasicFunc>(
         GetProcAddress(autpiDLL, "ReadStructBasic"));
@@ -282,4 +234,79 @@ void PushSimpleMetatables(lua_State* L, const METATABLE_TABLE* table, int length
     }
 
     Func(L, table, length);
+}
+
+BOOL LoadStageTable(char* name)
+{
+    typedef BOOL(*funcdef)(char*);
+
+    funcdef func = reinterpret_cast<funcdef>(
+        GetProcAddress(autpiDLL, "LoadStageTable"));
+
+    if (func == nullptr) {
+        std::cerr << "Failed to get the function pointer for LoadStageTable\n";
+        return FALSE;
+    }
+
+    return func(name);
+}
+
+BOOL ReloadModScript()
+{
+    typedef BOOL(*funcdef)();
+
+    funcdef func = reinterpret_cast<funcdef>(
+        GetProcAddress(autpiDLL, "ReloadModScript"));
+
+    if (func == nullptr) {
+        std::cerr << "Failed to get the function pointer for ReloadModScript\n";
+        return FALSE;
+    }
+
+    return func();
+}
+
+unsigned char ModLoader_GetByte(void* address)
+{
+    typedef unsigned char (*funcdef)(void* address);
+
+    funcdef func = reinterpret_cast<funcdef>(
+        GetProcAddress(autpiDLL, "ModLoader_GetByte"));
+
+    if (func == nullptr) {
+        std::cerr << "Failed to get the function pointer for ModLoader_GetByte\n";
+        return FALSE;
+    }
+
+    return func(address);
+}
+
+unsigned short ModLoader_GetWord(void* address)
+{
+    typedef unsigned short (*funcdef)(void* address);
+
+    funcdef func = reinterpret_cast<funcdef>(
+        GetProcAddress(autpiDLL, "ModLoader_GetWord"));
+
+    if (func == nullptr) {
+        std::cerr << "Failed to get the function pointer for ModLoader_GetWord\n";
+        return FALSE;
+    }
+
+    return func(address);
+}
+
+unsigned long ModLoader_GetLong(void* address)
+{
+    typedef unsigned long (*funcdef)(void* address);
+
+    funcdef func = reinterpret_cast<funcdef>(
+        GetProcAddress(autpiDLL, "ModLoader_GetLong"));
+
+    if (func == nullptr) {
+        std::cerr << "Failed to get the function pointer for ModLoader_GetLong\n";
+        return FALSE;
+    }
+
+    return func(address);
 }

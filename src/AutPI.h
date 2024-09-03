@@ -48,6 +48,10 @@ typedef void (*OpeningBelowPutBackElementHandler)();
 typedef void (*OpeningAbovePutBackElementHandler)();
 typedef void (*MOBelowPutFPSElementHandler)();
 typedef void (*MOAbovePutFPSElementHandler)();
+typedef void (*OpeningBelowPutStage_BackElementHandler)();
+typedef void (*OpeningAbovePutStage_BackElementHandler)();
+typedef void (*OpeningBelowPutStage_FrontElementHandler)();
+typedef void (*OpeningAbovePutStage_FrontElementHandler)();
 // ModeTitle()
 typedef void (*TitleInitElementHandler)();
 typedef void (*TitleActionElementHandler)();
@@ -73,6 +77,10 @@ typedef void (*MABelowPutFPSElementHandler)();
 typedef void (*MAAbovePutFPSElementHandler)();
 typedef void (*BelowPutBackElementHandler)();
 typedef void (*AbovePutBackElementHandler)();
+typedef void (*BelowPutStage_BackElementHandler)();
+typedef void (*AbovePutStage_BackElementHandler)();
+typedef void (*BelowPutStage_FrontElementHandler)();
+typedef void (*AbovePutStage_FrontElementHandler)();
 // Profile
 typedef void (*SaveProfilePreCloseElementHandler)();
 typedef void (*SaveProfilePostCloseElementHandler)();
@@ -111,6 +119,10 @@ DEFINE_REGISTER_HEADER(MOBelowPutFPSElementHandler, ModeOpeningBelowPutFPSElemen
 DEFINE_REGISTER_HEADER(MOAbovePutFPSElementHandler, ModeOpeningAbovePutFPSElement)
 DEFINE_REGISTER_HEADER(OpeningBelowPutBackElementHandler, OpeningBelowPutBackElement)
 DEFINE_REGISTER_HEADER(OpeningAbovePutBackElementHandler, OpeningAbovePutBackElement)
+DEFINE_REGISTER_HEADER(OpeningBelowPutStage_BackElementHandler, OpeningBelowPutStage_BackElement)
+DEFINE_REGISTER_HEADER(OpeningAbovePutStage_BackElementHandler, OpeningAbovePutStage_BackElement)
+DEFINE_REGISTER_HEADER(OpeningBelowPutStage_FrontElementHandler, OpeningBelowPutStage_FrontElement)
+DEFINE_REGISTER_HEADER(OpeningAbovePutStage_FrontElementHandler, OpeningAbovePutStage_FrontElement)
 DEFINE_REGISTER_HEADER(TitleInitElementHandler, TitleInitElement)
 DEFINE_REGISTER_HEADER(TitleActionElementHandler, TitleActionElement)
 DEFINE_REGISTER_HEADER(TitleBelowCounterElementHandler, TitleBelowCounterElement)
@@ -134,6 +146,10 @@ DEFINE_REGISTER_HEADER(MABelowPutFPSElementHandler, ModeActionBelowPutFPSElement
 DEFINE_REGISTER_HEADER(MAAbovePutFPSElementHandler, ModeActionAbovePutFPSElement)
 DEFINE_REGISTER_HEADER(BelowPutBackElementHandler, BelowPutBackElement)
 DEFINE_REGISTER_HEADER(AbovePutBackElementHandler, AbovePutBackElement)
+DEFINE_REGISTER_HEADER(BelowPutStage_BackElementHandler, BelowPutStage_BackElement)
+DEFINE_REGISTER_HEADER(AbovePutStage_BackElementHandler, AbovePutStage_BackElement)
+DEFINE_REGISTER_HEADER(BelowPutStage_FrontElementHandler, BelowPutStage_FrontElement)
+DEFINE_REGISTER_HEADER(AbovePutStage_FrontElementHandler, AbovePutStage_FrontElement)
 DEFINE_REGISTER_HEADER(SaveProfilePreCloseElementHandler, SaveProfilePreCloseElement)
 DEFINE_REGISTER_HEADER(SaveProfilePostCloseElementHandler, SaveProfilePostCloseElement)
 DEFINE_REGISTER_HEADER(LoadProfilePreCloseElementHandler, LoadProfilePreCloseElement)
@@ -153,3 +169,8 @@ BOOL Write2StructBasic(lua_State* L, const char* name, STRUCT_TABLE* table, void
 void PushFunctionTable(lua_State* L, const char* name, const FUNCTION_TABLE* table, int length, BOOL pop);
 void PushFunctionTableModName(lua_State* L, const char* modname, const char* name, const FUNCTION_TABLE* table, int length, BOOL pop);
 void PushSimpleMetatables(lua_State* L, const METATABLE_TABLE* table, int length);
+BOOL LoadStageTable(char* name);
+BOOL ReloadModScript();
+unsigned char ModLoader_GetByte(void* address);
+unsigned short ModLoader_GetWord(void* address);
+unsigned long ModLoader_GetLong(void* address);
