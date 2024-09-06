@@ -7,7 +7,6 @@
 mod.vcxproj.user
 *.exp
 *.pdb
-*.dll
 
 CaveStory/fps
 CaveStory/mute
